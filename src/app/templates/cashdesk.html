@@ -1,0 +1,44 @@
+<nav class="breadcrumb">
+    <span class="breadcrumb-item active">Cashdesk</span>
+</nav>
+
+<div class="form-group">
+    <input type="text" class="form-control form-control-lg" [value]="identifierInput" placeholder="Type identifier or use barcode scanner ..." readonly>
+</div>
+
+<div class="row">
+    <div class="col-md-9">
+        <h2>Cart</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="text-center w-25">Product name</th>
+                    <th class="text-center w-25">Unit price</th>
+                    <th class="text-center w-25">Quantity</th>
+                    <th class="text-center w-25">Total price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of cart.cart_items">
+                    <td>{{ item.product_variant.getName() }}</td>
+                    <td class="text-right">{{ item.unitPrice() | currency:'EUR':true:'1.2-2' }}</td>
+                    <td class="text-right">
+                        <div class="input-group">
+                            <input type="text" class="form-control" [value]="item.quantity" readonly>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-secondary" (click)="cart.addToCart(item.product_variant)">+</button>
+                            </span>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-secondary" (click)="cart.removeFromCart(item.product_variant)">-</button>
+                            </span>
+                        </div>
+                    </td>
+                    <td class="text-right">{{ item.totalPrice() | currency:'EUR':true:'1.2-2' }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-3">
+        <h2>User</h2>
+    </div>
+</div>

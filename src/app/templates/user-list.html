@@ -1,0 +1,19 @@
+<nav class="breadcrumb">
+  <span class="breadcrumb-item active">Users</span>
+</nav>
+
+<div class="row">
+  <div class="card col-md-3 product-card">
+    <div class="card-block">
+      <h4 class="card-title">New user</h4>
+      <a href="#" class="btn btn-outline-success">Create</a>
+    </div>
+  </div>
+  <div class="card col-md-3 product-card" *ngFor="let user of users">
+    <div class="card-block">
+      <h4 class="card-title">{{ user.name }}</h4>
+      <a routerLink="/users/{{ user.id }}" class="btn btn-outline-primary">Edit</a>
+      <a href="#" class="btn btn-outline-danger">Delete</a>
+    </div>
+  </div>
+</div>

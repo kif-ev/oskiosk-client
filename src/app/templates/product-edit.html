@@ -1,0 +1,39 @@
+<div *ngIf="product">
+    <nav class="breadcrumb">
+        <a class="breadcrumb-item" routerLink="/products">Products</a>
+        <span class="breadcrumb-item active">Test</span>
+    </nav>
+
+    <div class="card-deck">
+        <div class="card">
+            <div class="card-block">
+                <h4>Product properties</h4>
+                <div class="form-group row">
+                    <label for="name" class="col-2 col-form-label">Product name</label>
+                    <div class="col-10">
+                        <input class="form-control" type="text" [value]="product.name" id="name">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="price" class="col-2 col-form-label">Unit price</label>
+                    <div class="col-10 input-group">
+                        <span class="input-group-addon">€</span>
+                        <input class="form-control" type="number" [value]="product.unit_price" id="name">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-block">
+                <h4>Tags</h4>
+                <div *ngFor="let tag of product.tags" class="form-group row">
+                    <div class="col-12">
+                        <input class="form-control" type="text" [value]="tag">
+                    </div>
+                </div>
+                <button (click)="addTag()" class="btn btn-success">Add tag</button>
+            </div>
+        </div>
+    </div>
+</div>
+
