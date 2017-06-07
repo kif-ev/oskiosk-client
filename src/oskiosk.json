@@ -1,0 +1,8 @@
+{
+    "production": false,
+    "backend_type": "oskiosk",
+    "backend_config": {
+        "url": "https://oskiosk.herokuapp.com",
+        "token": "ce98c203f3053b1d67dd59b265efae3887483950daa0b72821cf4e35c01f653e"
+    }
+}

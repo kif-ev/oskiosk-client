@@ -63,19 +63,32 @@ export class CartItem {
     }
 
     unitPrice(): number {
-        return this.product_variant.price / 100;
+        return this.product_variant.price;
     }
 
     totalPrice(): number {
-        return this.quantity * this.product_variant.price / 100;
+        return this.quantity * this.product_variant.price;
     }
 }
 
 export class Cart {
     cart_items: CartItem[];
+    user: User;
 
     constructor(){
         this.cart_items = [];
+    }
+
+    isEmpty(): boolean {
+        return this.cart_items.length == 0;
+    }
+
+    totalSum(): number {
+        let sum = 0;
+        for(let item of this.cart_items){
+            sum += item.totalPrice();
+        }
+        return sum;
     }
 
     addToCart(product_variant: ProductVariant, quantity: number = 1): void {
@@ -99,6 +112,45 @@ export class Cart {
             }
         }
     }
+}
 
+export class TransactionItem {
+    id: number;
+    product_id: number;
+    product_name: string;
+    quantity: number;
+    price: number;
 
+    constructor(id: number, product_id: number, product_name: string, quantity: number, price: number){
+        this.id = id;
+        this.product_id = product_id;
+        this.product_name = product_name;
+        this.quantity = quantity;
+        this.price = price;
+    }
+}
+
+export class Transaction {
+    id: number;
+    user_id: number;
+    user_name: string;
+    amount: number;
+    created: Date;
+
+    constructor(id: number, user_id: number, user_name: string, amount: number, created: Date = new Date()) {
+        this.id = id;
+        this.user_id = user_id;
+        this.user_name = user_name;
+        this.amount = amount;
+        this.created = created;
+    }
+}
+
+export class PaymentTransaction extends Transaction {
+    transaction_items: TransactionItem[];
+
+    constructor(id: number, user_id: number, user_name: string, amount: number, created: Date = new Date(), transaction_items: TransactionItem[] = []) {
+        super(id, user_id, user_name, amount, created);
+        this.transaction_items = transaction_items;
+    }
 }
