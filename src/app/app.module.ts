@@ -15,8 +15,11 @@ import {
   UserListComponent,
   CashdeskComponent
 } from "./components";
-import { BackendService } from "app/services/backend.service";
-import { LocalBackendService } from "app/services/local-backend.service";
+
+// App providers
+import { BackendServiceProvider } from "app/providers/backend-service.provider";
+
+
 
 @NgModule({
   declarations: [
@@ -51,7 +54,7 @@ import { LocalBackendService } from "app/services/local-backend.service";
 
     ])
   ],
-  providers: [BackendService],
+  providers: [BackendServiceProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

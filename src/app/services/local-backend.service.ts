@@ -1,92 +1,95 @@
 import { BackendService } from "app/services/backend.service";
-import { Product, ProductVariant, User, Identifiable, PaymentTransaction, Cart, TransactionItem } from "app/models";
+import { Product, Pricing, User, Identifiable, PaymentTransaction, Cart, TransactionItem } from "app/models";
+import { Observable } from "rxjs/Observable";
+
+import 'rxjs/add/observable/from';
 
 export class LocalBackendService extends BackendService {
-    _product_id: number = 1;
-    _user_id: number = 1;
-    _variant_id: number = 1;
-    _transaction_id: number = 1;
-    _transaction_item_id: number = 1;
+    private _product_id: number = 1;
+    private _user_id: number = 1;
+    private _pricing_id: number = 1;
+    private _transaction_id: number = 1;
+    private _transaction_item_id: number = 1;
     _latency_simulation = 1000;
 
     _products = [
-        new Product(this._product_id++, 'Club Mate', ['drink']),
-        new Product(this._product_id++, 'fritz Cola', ['drink'])
-    ];
-    _variants = [
-        new ProductVariant(this._variant_id++, this._products[0], '1234', 70),
-        new ProductVariant(this._variant_id++, this._products[1], '1337', 100)
+        new Product(this._product_id++, 'Club Mate', ['drink'], ['1234'], [new Pricing(this._pricing_id++, 70)]),
+        new Product(this._product_id++, 'fritz Cola', ['drink'], ['1337'], [new Pricing(this._pricing_id++, 100)])
     ];
     _users = [
-        new User(this._user_id++, 'Darth Vader',1000, '8888'),
-        new User(this._user_id++, 'Dagobert Duck',99999999, '9999')
+        new User(this._user_id++, 'Darth Vader',1000, ['8888']),
+        new User(this._user_id++, 'Dagobert Duck',99999999, ['9999'])
     ];
     _transactions = [];
 
-    resolveWithLatency(value): Promise<object> {
+    resolveWithLatencyPromise(value): Promise<object> {
         return new Promise(resolve => {
             setTimeout(() => resolve(value), this._latency_simulation);
         });
     }
 
-    getProducts(): Promise<Product[]> {
-        return this.resolveWithLatency(this._products);
+    makeObservable(value): Observable<object> {
+        return Observable.from(value);
     }
 
-    getProduct(id: number): Promise<Product> {
+    getProducts(): Observable<Product[]> {
+        return this.makeObservable(this._products);
+    }
+
+    getProduct(id: number): Observable<Product> {
         for(let product of this._products){
             if(product.id == id)
-                return this.resolveWithLatency(product);;
+                return this.makeObservable(product);
         }
-        return Promise.reject(new Error('Product with specified ID not found.'));
+        return Observable.throw('Product with specified ID not found.');
     }
 
-    getUsers(): Promise<User[]> {
-        return this.resolveWithLatency(this._users);;
+    getUsers(): Observable<User[]> {
+        return this.makeObservable(this._users);
     }
 
-    getUser(id: number): Promise<User> {
+    getUser(id: number): Observable<User> {
         for(let user of this._users){
             if(user.id == id)
-                return this.resolveWithLatency(user);;
+                return this.makeObservable(user);
         }
-        return Promise.reject(new Error('User with specified ID not found.'));
+        return Observable.throw('User with specified ID not found.');
     }
 
-    getItemByIdentifier(identifier: string): Promise<Identifiable> {
-        for(let variant of this._variants){
-            if(variant.identifier == identifier)
-                return this.resolveWithLatency(variant);
+    getItemByIdentifier(identifier: string): Observable<Identifiable> {
+        for(let product of this._products){
+            if(product.identifiers.includes(identifier))
+                return this.makeObservable(product);
         }
 
         for(let user of this._users){
-            if(user.identifier == identifier)
-                return this.resolveWithLatency(user);
+            if(user.identifiers.includes(identifier))
+                return this.makeObservable(user);
         }
 
-        return Promise.reject(new Error('No item with the specified identifier exists.'));
+        return Observable.throw('No item with the specified identifier exists.');
     }
 
-    payCart(cart: Cart): Promise<PaymentTransaction> {
+    payCart(cart: Cart): Observable<PaymentTransaction> {
         if(!cart.user){
-            return Promise.reject(new Error('Cannot pay for a cart when no user is specified.'));
+            return Observable.throw('Cannot pay for a cart when the user is not specified.');
         }
         if(cart.isEmpty()){
-            return Promise.reject(new Error('Cannot pay for a cart which is empty.'));
+            return Observable.throw('Cannot pay for a cart which is empty.');
         }
 
         let transaction = new PaymentTransaction(this._transaction_id++, cart.user.id, cart.user.name, -cart.totalSum());
 
         for(let item of cart.cart_items){
             transaction.transaction_items.push(
-                new TransactionItem(this._transaction_item_id++, item.product_variant.product.id, item.product_variant.product.name, item.quantity, item.totalPrice())
+                new TransactionItem(this._transaction_item_id++, item.product.id, item.product.name, item.quantity, item.totalPrice())
             );
         }
 
         this._transactions.push(transaction);
         cart.user.balance -= cart.totalSum();
 
-        return this.resolveWithLatency(transaction);;
+        return this.makeObservable(transaction);
 
     }
 

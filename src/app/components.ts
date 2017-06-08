@@ -4,13 +4,13 @@ import { Location }                 from '@angular/common';
 import 'rxjs/add/operator/switchMap';
 
 import { BackendService } from "./services/backend.service";
-import { Product, ProductVariant, User, Identifiable, Cart } from "./models";
+import { Product, Pricing, User, Identifiable, Cart } from "./models";
 import { KeyCode, KeyCodeMap } from "./utils";
 
 @Component({
     selector: 'product-list',
     templateUrl: './templates/product-list.html',
-    providers: [BackendService]
+    providers: []
 })
 export class ProductListComponent implements OnInit{
     products: Product[];
@@ -19,7 +19,7 @@ export class ProductListComponent implements OnInit{
     constructor(private backendService: BackendService) { }
 
     getProducts(): void {
-        this.backendService.getProducts().then(products => this.products = products);
+        this.backendService.getProducts().subscribe(products => this.products = products);
     }
 
     onSelect(product: Product): void {
@@ -34,7 +34,7 @@ export class ProductListComponent implements OnInit{
 @Component({
     selector: 'product-detail',
     templateUrl: './templates/product-edit.html',
-    providers: [BackendService]
+    providers: []
 })
 export class ProductEditComponent implements OnInit{
     product: Product;
@@ -63,7 +63,7 @@ export class ProductEditComponent implements OnInit{
 @Component({
     selector: 'user-list',
     templateUrl: './templates/user-list.html',
-    providers: [BackendService]
+    providers: []
 })
 export class UserListComponent implements OnInit{
     users: User[];
@@ -86,8 +86,15 @@ export class UserListComponent implements OnInit{
         this.filteredUsers = [];
 
         for(let user of this.users) {
-            if(user.name.toLowerCase().includes(this._filter.toLowerCase()) || user.identifier.toLowerCase().includes(this._filter.toLowerCase())) {
+            if(user.name.toLowerCase().includes(this._filter.toLowerCase())) {
                 this.filteredUsers.push(user);
+                continue;
+            }
+            for(let identifier of user.identifiers){
+                if(identifier.toLowerCase().includes(this._filter.toLowerCase())){
+                    this.filteredUsers.push(user);
+                    continue;
+                }
             }
         }
     }
@@ -154,8 +161,8 @@ export class CashdeskComponent implements OnInit, OnDestroy{
     }
 
     processItem(item: Identifiable): void {
-        if(item instanceof ProductVariant){
-            this.cart.addToCart(item);
+        if(item instanceof Product){
+            this.cart.addToCart(item, item.pricings[0]); // hackedyhack ... select proper pricing instead
         }
         else if(item instanceof User){
             this.cart.user = item;
