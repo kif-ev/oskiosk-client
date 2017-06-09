@@ -1,4 +1,4 @@
-import { BackendService } from "app/services/backend.service";
+import { BackendService } from "./backend.service";
 import { Product, Pricing, User, Identifiable, Identifier, PaymentTransaction, Cart, TransactionItem } from "app/models";
 import { Observable } from "rxjs/Observable";
 

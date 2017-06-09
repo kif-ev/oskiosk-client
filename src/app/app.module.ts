@@ -4,66 +4,53 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule }   from '@angular/router';
 
-// Bootstrap
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-
-// App components
 import { AppComponent } from './app.component';
-import {
+import { BackendServiceProvider } from "app/providers";
+import { 
   ProductListComponent,
   ProductEditComponent,
   UserListComponent,
-  CashdeskComponent,
-  DepositStationComponent,
-  NavbarComponent,
-  SelfserviceComponent
-} from "./components";
-
-// App providers
-import { BackendServiceProvider } from "app/providers/backend-service.provider";
-
+  SalesPointComponent,
+  CashPointComponent,
+  SelfServicePointComponent,
+  NavbarComponent
+} from "app/components";
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ProductListComponent,
-    ProductEditComponent,
     UserListComponent,
-    CashdeskComponent,
-    DepositStationComponent,
-    SelfserviceComponent,
+    SalesPointComponent,
+    CashPointComponent,
+    SelfServicePointComponent,
     NavbarComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    NgbModule.forRoot(),
     RouterModule.forRoot([
       {
         path: 'products',
         component: ProductListComponent
       },
       {
-        path: 'products/:id',
-        component: ProductEditComponent
-      },
-      {
         path: 'users',
         component: UserListComponent
       },
       {
-        path: 'cashdesk',
-        component: CashdeskComponent
+        path: 'sales-point',
+        component: SalesPointComponent
       },
       {
-        path: 'deposit',
-        component: DepositStationComponent
+        path: 'cash-point',
+        component: CashPointComponent
       },
       {
-        path: 'selfservice',
-        component: SelfserviceComponent
+        path: 'self-service-point',
+        component: SelfServicePointComponent
       }
     ])
   ],

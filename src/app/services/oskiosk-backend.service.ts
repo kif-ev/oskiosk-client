@@ -1,7 +1,4 @@
-import { Product, User, Identifiable, Cart, PaymentTransaction, Transaction } from "../models";
-import { BackendService } from "app/services/backend.service";
 import { Http, Response, Headers, RequestOptions } from "@angular/http";
-
 import { deserialize, deserializeArray, serialize } from "class-transformer";
 
 import { Observable } from "rxjs/Observable";
@@ -9,6 +6,8 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
 
+import { Product, User, Identifiable, Cart, PaymentTransaction, Transaction } from "app/models";
+import { BackendService } from "./backend.service";
 
 export class OskioskBackendService extends BackendService{
     

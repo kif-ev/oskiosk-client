@@ -1,7 +1,7 @@
 <navbar></navbar>
 
 <div class="container-fluid">
-    <h1 class="mt-2">Cash Desk</h1>
+    <h1 class="mt-2">Sales Point</h1>
 
     <div class="row">
         <div class="col-lg-3">
@@ -17,9 +17,9 @@
                     </div>
                     <div class="input-group input-group-lg">
                         <span class="input-group-addon text-primary"><i class="fa fa-barcode" aria-hidden="true"></i></span>
-                        <input type="text" class="form-control form-control-lg" [value]="identifierInput" placeholder="Type identifier or use barcode scanner ..." readonly>
+                        <input type="text" class="form-control form-control-lg" [value]="identifier_input" placeholder="Type identifier or use barcode scanner ..." readonly>
                     </div>
-                    <button class="btn btn-secondary btn-lg btn-block mt-2" (click)="confirmInput()" [disabled]="identifierInput.length == 0">
+                    <button class="btn btn-secondary btn-lg btn-block mt-2" (click)="confirmInput()" [disabled]="identifier_input.length == 0">
                         <i *ngIf="wait_identifier" class="fa fa-spinner fa-spin fa-fw"></i> Enter barcode
                     </button>
                 </div>
@@ -42,7 +42,7 @@
                     <p *ngIf="!user" class="card-text text-center text-muted">Please scan a customer code to enable checkout.</p>
                     <h2 *ngIf="user" class="card-title">{{ user.name }}</h2>
                     <h4 *ngIf="user" class="card-subtitle mb-4 text-muted">{{ user.balance / 100 | currency:'EUR':true:'1.2-2' }}</h4>
-                    <button class="btn btn-primary btn-lg btn-block" (click)="payCart()" [disabled]="identifierInput.length > 0 || !user || cart.isEmpty()">
+                    <button class="btn btn-primary btn-lg btn-block" (click)="payCart()" [disabled]="identifier_input.length > 0 || !user || cart.isEmpty()">
                         <i *ngIf="wait_checkout" class="fa fa-spinner fa-spin fa-fw"></i>  CHECKOUT
                     </button>
                     <button class="btn btn-warning btn-lg btn-block" (click)="abort()" [disabled]="cart.isEmpty() && !user">Abort</button>
