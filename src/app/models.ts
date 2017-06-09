@@ -1,20 +1,27 @@
-export abstract class OskioskModel{
-    static fromOskiosk(obj: object){
-        throw new Error('Not implemented.');
+import { Type, Exclude, Expose, Transform } from "class-transformer";
+
+@Exclude()
+export class Identifier {
+    @Expose() code: string;
+
+    constructor(code: string) {
+        this.code = code;
     }
 }
 
-export abstract class Identifiable extends OskioskModel {
-    identifiers: string[];
+@Exclude()
+export abstract class Identifiable{
+    @Expose() @Type(() => Identifier) identifiers: Identifier[];
 }
 
+@Exclude()
 export class Product extends Identifiable {
-    id: number;
-    name: string;
-    tags: string[];
-    pricings: Pricing[];
+    @Expose() id: number;
+    @Expose() name: string;
+    @Expose() tags: string[];
+    @Expose() @Type(() => Pricing) pricings: Pricing[];
 
-    constructor(id: number, name: string, tags: string[] = [], identifiers: string[] = [], pricings: Pricing[] = []){
+    constructor(id: number, name: string, tags: string[] = [], identifiers: Identifier[] = [], pricings: Pricing[] = []){
         super();
         this.id = id;
         this.name = name;
@@ -22,23 +29,18 @@ export class Product extends Identifiable {
         this.identifiers = identifiers;
         this.pricings = pricings;
     }
-
-    static fromOskiosk(product: object){
-        let pricings = [];
-        for(let pricing of product['pricings']){
-            pricings.push(new Pricing(pricing['id'], pricing['price']));
-        }
-        return new Product(product['id'], product['name'], product['tags'], product['identifiers'], pricings);
-    }
 }
 
+@Exclude()
 export class Pricing{
-    id: number;
-    price: number;
+    @Expose() id: number;
+    @Expose() price: number;
+    @Expose() quantity: number;
 
-    constructor(id: number, price: number = 0){
+    constructor(id: number, price: number = 0, quantity: number = 0){
         this.id = id;
         this.price = price;
+        this.quantity = quantity;
     }
 }
 
@@ -48,7 +50,7 @@ export class User extends Identifiable {
     balance: number;
     tags: string[];
 
-    constructor(id: number, name: string, balance: number = 0, tags: string[] = [], identifiers: string[] = []){
+    constructor(id: number, name: string, balance: number = 0, tags: string[] = [], identifiers: Identifier[] = []){
         super();
         this.id = id;
         this.name = name;
@@ -58,32 +60,32 @@ export class User extends Identifiable {
     }
 }
 
+@Exclude()
 export class CartItem {
-    product: Product;
-    pricing: Pricing;
-    quantity: number;
+    @Expose({ toClassOnly: true }) product_name: string;
+    @Expose() pricing_id: number;
+    @Expose() quantity: number;
+    @Expose({ toClassOnly: true }) unit_price: number;
 
-    constructor(product: Product, pricing: Pricing, quantity: number){
-        this.product = product;
-        this.pricing = pricing;
+    constructor(product_name: string, pricing_id: number, quantity: number, unit_price: number){
+        this.product_name = product_name;
+        this.pricing_id = pricing_id;
         this.quantity = quantity;
-    }
-
-    unitPrice(): number {
-        return this.pricing.price;
+        this.unit_price = unit_price;
     }
 
     totalPrice(): number {
-        return this.quantity * this.pricing.price;
+        return this.quantity * this.unit_price;
     }
 }
 
-export class Cart extends OskioskModel {
-    cart_items: CartItem[];
-    user: User;
+@Exclude()
+export class Cart{
+    @Expose() id: number;
+    @Expose() @Type(() => CartItem) cart_items: CartItem[];
+    @Expose() user_id: number;
 
     constructor(){
-        super();
         this.cart_items = [];
     }
 
@@ -101,17 +103,17 @@ export class Cart extends OskioskModel {
 
     addToCart(product: Product, pricing: Pricing, quantity: number = 1): void {
         for(let item of this.cart_items){
-            if(item.product.id == product.id && item.pricing.id == pricing.id){
+            if(item.pricing_id == pricing.id){
                 item.quantity += quantity;
                 return;
             }
         }
-        this.cart_items.push(new CartItem(product, pricing, quantity));
+        this.cart_items.push(new CartItem(product.name, pricing.id, quantity, pricing.price));
     }
 
     removeFromCart(product: Product, pricing: Pricing, quantity: number = 1): void {
         for(let item of this.cart_items){
-            if(item.product.id == product.id && item.pricing.id == pricing.id){
+            if(item.pricing_id == pricing.id){
                 item.quantity -= quantity;
                 if(item.quantity <= 0){
                     this.cart_items.splice(this.cart_items.indexOf(item),1);
@@ -123,43 +125,44 @@ export class Cart extends OskioskModel {
 }
 
 export class TransactionItem {
-    id: number;
-    product_id: number;
-    product_name: string;
-    quantity: number;
-    price: number;
+    @Expose() id: number;
+    @Expose() product_id: number;
+    @Expose() name: string;
+    @Expose() quantity: number;
+    @Expose() price: number;
 
-    constructor(id: number, product_id: number, product_name: string, quantity: number, price: number){
+    constructor(id: number, product_id: number, name: string, quantity: number, price: number){
         this.id = id;
         this.product_id = product_id;
-        this.product_name = product_name;
+        this.name = name;
         this.quantity = quantity;
         this.price = price;
     }
 }
 
-export class Transaction extends OskioskModel{
-    id: number;
-    user_id: number;
-    user_name: string;
-    amount: number;
-    created: Date;
+@Exclude()
+export class Transaction{
+    @Expose() id: number;
+    @Expose() user_id: number;
+    @Expose() user_name: string;
+    @Expose() amount: number;
+    @Expose() created_at: Date;
 
-    constructor(id: number, user_id: number, user_name: string, amount: number, created: Date = new Date()) {
-        super();
+    constructor(id: number, user_id: number, user_name: string, amount: number, created_at: Date = new Date()) {
         this.id = id;
         this.user_id = user_id;
         this.user_name = user_name;
         this.amount = amount;
-        this.created = created;
+        this.created_at = created_at;
     }
 }
 
+@Exclude()
 export class PaymentTransaction extends Transaction {
-    transaction_items: TransactionItem[];
+    @Expose() @Type(() => TransactionItem) transaction_items: TransactionItem[];
 
-    constructor(id: number, user_id: number, user_name: string, amount: number, created: Date = new Date(), transaction_items: TransactionItem[] = []) {
-        super(id, user_id, user_name, amount, created);
+    constructor(id: number, user_id: number, user_name: string, amount: number, created_at: Date = new Date(), transaction_items: TransactionItem[] = []) {
+        super(id, user_id, user_name, amount, created_at);
         this.transaction_items = transaction_items;
     }
 }

@@ -36,13 +36,13 @@
                 Customer and Checkout
             </div>
             <div class="card-block">
-                <p *ngIf="!cart.user" class="card-text text-center text-muted">Please scan a customer code to enable checkout.</p>
-                <h2 *ngIf="cart.user" class="card-title">{{ cart.user.name }}</h2>
-                <h4 *ngIf="cart.user" class="card-subtitle mb-4 text-muted">{{ cart.user.balance / 100 | currency:'EUR':true:'1.2-2' }}</h4>
-                <button class="btn btn-primary btn-lg btn-block" (click)="payCart()" [disabled]="identifierInput.length > 0 || !cart.user || cart.isEmpty()">
+                <p *ngIf="!user" class="card-text text-center text-muted">Please scan a customer code to enable checkout.</p>
+                <h2 *ngIf="user" class="card-title">{{ user.name }}</h2>
+                <h4 *ngIf="user" class="card-subtitle mb-4 text-muted">{{ user.balance / 100 | currency:'EUR':true:'1.2-2' }}</h4>
+                <button class="btn btn-primary btn-lg btn-block" (click)="payCart()" [disabled]="identifierInput.length > 0 || !user || cart.isEmpty()">
                     <i *ngIf="wait_checkout" class="fa fa-spinner fa-spin fa-fw"></i>  CHECKOUT
                 </button>
-                <button class="btn btn-warning btn-lg btn-block" (click)="abort()" [disabled]="cart.isEmpty() && !cart.user">Abort</button>
+                <button class="btn btn-warning btn-lg btn-block" (click)="abort()" [disabled]="cart.isEmpty() && !user">Abort</button>
 
             </div>
         </div>
@@ -60,16 +60,16 @@
             </thead>
             <tbody>
                 <tr *ngFor="let item of cart.cart_items">
-                    <td>{{ item.product_variant.getName() }}</td>
-                    <td class="text-right">{{ item.unitPrice() / 100 | currency:'EUR':true:'1.2-2' }}</td>
+                    <td>{{ item.product_name }}</td>
+                    <td class="text-right">{{ item.unit_price / 100 | currency:'EUR':true:'1.2-2' }}</td>
                     <td class="text-right">
                         <div class="input-group">
                             <input type="text" class="form-control" [value]="item.quantity" readonly>
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-secondary" (click)="cart.addToCart(item.product_variant)">+</button>
+                                <button type="button" class="btn btn-secondary" (click)="cart.addToCart(item.product, item.pricing)">+</button>
                             </span>
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-secondary" (click)="cart.removeFromCart(item.product_variant)">-</button>
+                                <button type="button" class="btn btn-secondary" (click)="cart.removeFromCart(item.product, item.pricing)">-</button>
                             </span>
                         </div>
                     </td>

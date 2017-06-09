@@ -4,7 +4,7 @@ import { BackendService } from "app/services/backend.service";
 import { OskioskBackendService } from "app/services/oskiosk-backend.service";
 import { Http } from "@angular/http";
 
-let backendServiceFactory = (http: Http) => {
+export function backendServiceFactory(http: Http) {
     let config = ConfigService.config;
 
     if(config['backend_type'] == 'oskiosk'){

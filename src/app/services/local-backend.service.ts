@@ -1,5 +1,5 @@
 import { BackendService } from "app/services/backend.service";
-import { Product, Pricing, User, Identifiable, PaymentTransaction, Cart, TransactionItem } from "app/models";
+import { Product, Pricing, User, Identifiable, Identifier, PaymentTransaction, Cart, TransactionItem } from "app/models";
 import { Observable } from "rxjs/Observable";
 
 import 'rxjs/add/observable/from';
@@ -12,13 +12,13 @@ export class LocalBackendService extends BackendService {
     private _transaction_item_id: number = 1;
     _latency_simulation = 1000;
 
-    _products = [
-        new Product(this._product_id++, 'Club Mate', ['drink'], ['1234'], [new Pricing(this._pricing_id++, 70)]),
-        new Product(this._product_id++, 'fritz Cola', ['drink'], ['1337'], [new Pricing(this._pricing_id++, 100)])
+    _products: Product[] = [
+        new Product(this._product_id++, 'Club Mate', ['drink'], [new Identifier('1234')], [new Pricing(this._pricing_id++, 70)]),
+        new Product(this._product_id++, 'fritz Cola', ['drink'], [new Identifier('1337')], [new Pricing(this._pricing_id++, 100)])
     ];
-    _users = [
-        new User(this._user_id++, 'Darth Vader',1000, ['8888']),
-        new User(this._user_id++, 'Dagobert Duck',99999999, ['9999'])
+    _users: User[] = [
+        new User(this._user_id++, 'Darth Vader',1000, ['not-a-jedi'], [new Identifier('8888')]),
+        new User(this._user_id++, 'Dagobert Duck',99999999, ['greedy'], [new Identifier('9999')])
     ];
     _transactions = [];
 
@@ -57,6 +57,7 @@ export class LocalBackendService extends BackendService {
     }
 
     getItemByIdentifier(identifier: string): Observable<Identifiable> {
+        /*
         for(let product of this._products){
             if(product.identifiers.includes(identifier))
                 return this.makeObservable(product);
@@ -66,30 +67,31 @@ export class LocalBackendService extends BackendService {
             if(user.identifiers.includes(identifier))
                 return this.makeObservable(user);
         }
+        */
 
         return Observable.throw('No item with the specified identifier exists.');
     }
 
     payCart(cart: Cart): Observable<PaymentTransaction> {
-        if(!cart.user){
+        if(!cart.user_id){
             return Observable.throw('Cannot pay for a cart when the user is not specified.');
         }
         if(cart.isEmpty()){
             return Observable.throw('Cannot pay for a cart which is empty.');
         }
 
-        let transaction = new PaymentTransaction(this._transaction_id++, cart.user.id, cart.user.name, -cart.totalSum());
+        // let transaction = new PaymentTransaction(this._transaction_id++, cart.user_id, cart.user.name, -cart.totalSum());
 
         for(let item of cart.cart_items){
-            transaction.transaction_items.push(
-                new TransactionItem(this._transaction_item_id++, item.product.id, item.product.name, item.quantity, item.totalPrice())
-            );
+            // transaction.transaction_items.push(
+                // new TransactionItem(this._transaction_item_id++, item.product.id, item.product.name, item.quantity, item.totalPrice())
+            //);
         }
 
-        this._transactions.push(transaction);
-        cart.user.balance -= cart.totalSum();
+        // this._transactions.push(transaction);
+        // cart.user.balance -= cart.totalSum();
 
-        return this.makeObservable(transaction);
+        // return this.makeObservable(transaction);
 
     }
 

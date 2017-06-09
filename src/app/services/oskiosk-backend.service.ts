@@ -1,10 +1,14 @@
-import { Product, User, Identifiable, Cart, PaymentTransaction, OskioskModel } from "../models";
+import { Product, User, Identifiable, Cart, PaymentTransaction } from "../models";
 import { BackendService } from "app/services/backend.service";
 import { Http, Response, Headers, RequestOptions } from "@angular/http";
+
+import { deserialize, deserializeArray, serialize } from "class-transformer";
+
 import { Observable } from "rxjs/Observable";
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
+
 
 export class OskioskBackendService extends BackendService{
     
@@ -13,7 +17,10 @@ export class OskioskBackendService extends BackendService{
     }
     
     private getDefaultRequestOptions(): RequestOptions {
-        let headers = new Headers({ 'Authorization': 'Bearer ' + this.api_token });
+        let headers = new Headers({
+            'Authorization': 'Bearer ' + this.api_token,
+            'Content-Type': 'application/json'
+        });
         return new RequestOptions({ headers: headers });
     }    
 
@@ -21,55 +28,82 @@ export class OskioskBackendService extends BackendService{
         return this.http.get(this.api_url + url, this.getDefaultRequestOptions())
     }
 
+    private httpPost(url: string, data: string): Observable<Response> {
+        return this.http.post(this.api_url + url, data, this.getDefaultRequestOptions())
+    }
+
+    private httpPatch(url: string, data: string): Observable<Response> {
+        return this.http.patch(this.api_url + url, data, this.getDefaultRequestOptions())
+    }
+
     private handleError (error: Response | any) {
+        console.log(error);
         return Observable.throw('Error!');
     }
 
-    extractProducts(res: Response): Product[] {
-        let parsed_products = [];
-        let raw_products = res.json();
-        
-        for(let product of raw_products){
-            parsed_products.push(Product.fromOskiosk(product));
+    private handleIdentifierResponse(res: Response) {
+        let json = res.json();
+        if(json['type'] == 'user'){
+            return deserializeArray(User, res.text());
         }
-        
-        return parsed_products;
+        else if(json['type'] == 'product'){
+            return deserializeArray(Product, res.text());
+        }
     }
 
-    extractProduct(res: Response): Product {
-        let raw_product = res.json();
-        return Product.fromOskiosk(raw_product);
-    }
-    
     getProducts(): Observable<Product[]> {
         return this.httpGet('/products.json')
-        .map(this.extractProducts)
+        .map((res: Response) => { return deserializeArray(Product, res.text()); })
         .catch(this.handleError);
     }
     
     getProduct(id: number): Observable<Product> {
         return this.httpGet('/products/' + id + '.json')
-        .map(this.extractProduct)
+        .map((res: Response) => { return deserialize(Product, res.text()); })
         .catch(this.handleError);
     }
     
     getUsers(): Observable<User[]> {
         return this.httpGet('/users.json')
-        .map((res: Response) => User.fromOskioskMany(res.json()))
+        .map((res: Response) => { return deserializeArray(User, res.text()); })
         .catch(this.handleError);
     }
     
     getUser(id: number): Observable<User> {
         return this.httpGet('/users/' + id + '.json')
-        .map(this.extractUser)
+        .map((res: Response) => { return deserialize(User, res.text()); })
         .catch(this.handleError);
     }
     
     getItemByIdentifier(identifier: string): Observable<Identifiable> {
-        throw Error('Not implemented.');
+        return this.httpGet('/identifiers/' + identifier + '.json')
+        .map(this.handleIdentifierResponse)
+        .catch(this.handleError);
     }
     
     payCart(cart: Cart): Observable<PaymentTransaction> {
-        throw Error('Not implemented.');
+        console.log(cart);
+        return this.httpPost('/carts/' + cart.id + '/pay.json', JSON.stringify({'cart_id': cart.id}))
+        .map((res: Response) => { return deserialize(PaymentTransaction, res.text()); })
+        .catch(this.handleError);
+    }
+
+    saveProduct(product: Product): Observable<Product> {
+        return this.httpPatch('/products/' + product.id + '.json', serialize(product))
+        .map((res: Response) => { return deserialize(Product, res.text()); })
+        .catch(this.handleError);
+    }
+
+    createOrUpdateCart(cart: Cart): Observable<Cart> {
+        let observable: Observable<Response>;
+        if(cart.id){
+            observable = this.httpPatch('/carts/' + cart.id + '.json', serialize(cart))
+        }
+        else {
+            observable = this.httpPost('/carts.json', serialize(cart))
+        }
+        return observable
+        .map((res: Response) => { return deserialize(Cart, res.text()); })
+        .catch(this.handleError);
     }
 }

@@ -4,8 +4,9 @@ import { Location }                 from '@angular/common';
 import 'rxjs/add/operator/switchMap';
 
 import { BackendService } from "./services/backend.service";
-import { Product, Pricing, User, Identifiable, Cart } from "./models";
+import { Product, Pricing, User, Identifiable, Cart, Identifier } from "./models";
 import { KeyCode, KeyCodeMap } from "./utils";
+import { serialize } from "class-transformer";
 
 @Component({
     selector: 'product-list',
@@ -49,6 +50,10 @@ export class ProductEditComponent implements OnInit{
         this.product.tags.push('');
     }
 
+    addIdentifier(): void {
+        this.product.identifiers.push(new Identifier(''));
+    }
+
     ngOnInit(): void {
         this.route.params
         .switchMap((params: Params) => this.backendService.getProduct(+params['id']))
@@ -57,6 +62,14 @@ export class ProductEditComponent implements OnInit{
 
     goBack(): void {
         this.location.back();
+    }
+
+    save(): void {
+        this.backendService.saveProduct(this.product)
+        .subscribe(
+            product => {},
+            error => console.log(error)
+        );
     }
 }
 
@@ -91,16 +104,16 @@ export class UserListComponent implements OnInit{
                 continue;
             }
             for(let identifier of user.identifiers){
-                if(identifier.toLowerCase().includes(this._filter.toLowerCase())){
-                    this.filteredUsers.push(user);
-                    continue;
-                }
+                //if(identifier.toLowerCase().includes(this._filter.toLowerCase())){
+                //    this.filteredUsers.push(user);
+                //    continue;
+                //}
             }
         }
     }
 
     getUsers(): void {
-        this.backendService.getUsers().then(users => { this.users = users; this.filterUsers(); });
+        this.backendService.getUsers().subscribe(users => { this.users = users; this.filterUsers(); });
     }
 
     ngOnInit(): void {
@@ -116,6 +129,7 @@ export class UserListComponent implements OnInit{
 export class CashdeskComponent implements OnInit, OnDestroy{
     identifierInput: string = '';
     cart: Cart;
+    user: User;
     wait_identifier: boolean = false;
     wait_checkout: boolean = false;
     alert_barcode_not_found: boolean = false;
@@ -149,32 +163,47 @@ export class CashdeskComponent implements OnInit, OnDestroy{
     confirmInput(): void {
         this.wait_identifier = true;
         this.backendService.getItemByIdentifier(this.identifierInput)
-            .then(item => {
-                this.wait_identifier = false;
-                this.processItem(item)
-            })
-            .catch(reason => {
-                this.wait_identifier = false;
-                this.alert_barcode_not_found = true;
-            });
+            .subscribe(
+                item => {
+                    this.wait_identifier = false;
+                    this.processItem(item)
+                },
+                error => {
+                    this.wait_identifier = false;
+                    this.alert_barcode_not_found = true;
+                }
+            );
         this.identifierInput = '';
     }
 
     processItem(item: Identifiable): void {
         if(item instanceof Product){
             this.cart.addToCart(item, item.pricings[0]); // hackedyhack ... select proper pricing instead
+            this.updateCart();
         }
         else if(item instanceof User){
-            this.cart.user = item;
+            this.user = item;
+            this.cart.user_id = item.id;
+            this.updateCart();
         }
+    }
+
+    updateCart(): void {
+        this.backendService.createOrUpdateCart(this.cart).subscribe(
+            cart => this.cart = cart,
+            error => console.log(error)
+        );
     }
 
     payCart(): void {
         this.wait_checkout = true;
-        this.backendService.payCart(this.cart).then(transaction => {
-            this.wait_checkout = false;
-            this.cart = new Cart();
-        })
+        this.backendService.payCart(this.cart).subscribe(
+            transaction => {
+                this.wait_checkout = false;
+                this.cart = new Cart();
+            },
+            error => console.log(error)
+        );
     }
 
     abort(): void {

@@ -1,37 +1,71 @@
-<div *ngIf="product">
-    <nav class="breadcrumb">
-        <a class="breadcrumb-item" routerLink="/products">Products</a>
-        <span class="breadcrumb-item active">Test</span>
-    </nav>
+<h1 class="mt-2"> Edit product</h1>
 
-    <div class="card-deck">
+<form class="form-inline">
+  <button type="submit" class="btn btn-success mb-2 mr-2" (click)="save()">Save changes</button>
+</form>
+
+<div class="row" *ngIf="product">
+    <div class="col-lg-4 mt-2">
         <div class="card">
             <div class="card-block">
-                <h4>Product properties</h4>
+                <h4>Product name</h4>
                 <div class="form-group row">
-                    <label for="name" class="col-2 col-form-label">Product name</label>
-                    <div class="col-10">
-                        <input class="form-control" type="text" [value]="product.name" id="name">
+                    <div class="col-12">
+                        <input class="form-control" type="text" [(ngModel)]="product.name">
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="price" class="col-2 col-form-label">Unit price</label>
-                    <div class="col-10 input-group">
-                        <span class="input-group-addon">€</span>
-                        <input class="form-control" type="number" [value]="product.unit_price" id="name">
+                <h4>Tags</h4>
+                <div *ngFor="let tag of product.tags; let i = index" class="form-group row">
+                    <div class="col-12">
+                        <input class="form-control" type="text" [(ngModel)]="product.tags[i]" name="tag{{i}}">
                     </div>
                 </div>
+                <button (click)="addTag()" class="btn btn-secondary">Add tag</button>
             </div>
         </div>
+    </div>
+    <div class="col-lg-4 mt-2">
         <div class="card">
             <div class="card-block">
-                <h4>Tags</h4>
-                <div *ngFor="let tag of product.tags" class="form-group row">
+                <h4>Pricings</h4>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="text-center w-50">Quantity</th>
+                            <th class="text-center w-50">Unit price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let pricing of product.pricings">
+                            <td>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" [value]="pricing.quantity">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" [value]="pricing.price">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="product.pricings.length == 0">
+                            <td colspan="2" class="text-muted text-center">No pricings defined.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 mt-2">
+        <div class="card">
+            <div class="card-block">
+                <h4>Identifiers</h4>
+                <div *ngFor="let identifier of product.identifiers" class="form-group row">
                     <div class="col-12">
-                        <input class="form-control" type="text" [value]="tag">
+                        <input class="form-control" type="text" [value]="identifier.code">
                     </div>
                 </div>
-                <button (click)="addTag()" class="btn btn-success">Add tag</button>
+                <button (click)="addIdentifier()" class="btn btn-secondary">Add identifier</button>
             </div>
         </div>
     </div>

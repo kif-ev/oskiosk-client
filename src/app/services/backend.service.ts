@@ -25,4 +25,12 @@ export class BackendService{
     payCart(cart: Cart): Observable<PaymentTransaction> {
         throw Error('Not implemented.');
     }
+
+    saveProduct(product: Product): Observable<Product> {
+        throw Error('Not implemented.');
+    }
+
+    createOrUpdateCart(cart: Cart): Observable<Cart> {
+        throw Error('Not implemented.');
+    }
 }
