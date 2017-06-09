@@ -20,6 +20,7 @@ import {
 @NgModule({
   declarations: [
     AppComponent,
+    ProductEditComponent,
     ProductListComponent,
     UserListComponent,
     SalesPointComponent,
@@ -35,6 +36,10 @@ import {
       {
         path: 'products',
         component: ProductListComponent
+      },
+      {
+        path: 'products/:id',
+        component: ProductEditComponent
       },
       {
         path: 'users',

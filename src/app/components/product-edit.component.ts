@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
+import { Location } from "@angular/common";
 
 import { Product, Identifier } from "app/models";
 import { BackendService } from "app/services";
