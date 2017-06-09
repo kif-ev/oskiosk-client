@@ -1,4 +1,4 @@
-import { Product, User, Identifiable, Cart, PaymentTransaction } from "../models";
+import { Product, User, Identifiable, Cart, PaymentTransaction, Transaction } from "../models";
 import { Observable } from "rxjs/Observable";
 
 export class BackendService{
@@ -31,6 +31,10 @@ export class BackendService{
     }
 
     createOrUpdateCart(cart: Cart): Observable<Cart> {
+        throw Error('Not implemented.');
+    }
+
+    deposit(user: User, amount: number): Observable<Transaction> {
         throw Error('Not implemented.');
     }
 }

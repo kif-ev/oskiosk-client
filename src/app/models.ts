@@ -84,6 +84,7 @@ export class Cart{
     @Expose() id: number;
     @Expose() @Type(() => CartItem) cart_items: CartItem[];
     @Expose() user_id: number;
+    @Expose() lock_version: number;
 
     constructor(){
         this.cart_items = [];
@@ -101,26 +102,34 @@ export class Cart{
         return sum;
     }
 
-    addToCart(product: Product, pricing: Pricing, quantity: number = 1): void {
+    addToCart(product_name: string, pricing: Pricing, quantity: number = 1): void {
         for(let item of this.cart_items){
             if(item.pricing_id == pricing.id){
                 item.quantity += quantity;
                 return;
             }
         }
-        this.cart_items.push(new CartItem(product.name, pricing.id, quantity, pricing.price));
+        this.cart_items.push(new CartItem(product_name, pricing.id, quantity, pricing.price));
     }
 
-    removeFromCart(product: Product, pricing: Pricing, quantity: number = 1): void {
+     private modifyQuantity(pricing_id: number, quantity: number): void {
         for(let item of this.cart_items){
-            if(item.pricing_id == pricing.id){
-                item.quantity -= quantity;
+            if(item.pricing_id == pricing_id){
+                item.quantity += quantity;
                 if(item.quantity <= 0){
                     this.cart_items.splice(this.cart_items.indexOf(item),1);
                 }
                 return;
             }
         }
+    }
+
+    increaseQuantity(pricing_id: number, quantity: number = 1){
+        this.modifyQuantity(pricing_id, quantity)
+    }
+
+    decreaseQuantity(pricing_id: number, quantity: number = 1){
+        this.modifyQuantity(pricing_id, -quantity)
     }
 }
 

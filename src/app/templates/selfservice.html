@@ -1,0 +1,42 @@
+<nav class="navbar fixed-bottom navbar-light bg-faded">
+    <form class="form-inline">
+        <div class="input-group input-group-lg w-100">
+            <span class="input-group-addon w-25">Scan <i class="fa fa-barcode" aria-hidden="true"></i> or type <kbd>0-9</kbd> + <kbd>Enter</kbd></span>
+            <input type="text" class="form-control form-control-lg" [value]="identifierInput" placeholder="Barcode input" readonly>
+        </div>
+    </form>
+</nav>
+
+<div class="container-fluid mt-2" style="font-size: 20px;">
+    <div *ngIf="!user">
+        <h1 class="display-2 text-center">Hello!</h1>
+        <h1 class="display-4 text-center mt-4">Please scan your <span class="text-primary"><i class="fa fa-id-card" aria-hidden="true"></i> ID card</span> to begin.</h1>
+    </div>
+    <div *ngIf="user && cart.isEmpty()">
+        <h1 class="display-2 text-center">Welcome {{ user.name }}!</h1>
+        <h1 class="display-4 text-center">Your current balance: {{ user.balance / 100 | currency:'EUR':true:'1.2-2' }}</h1>
+        <h1 class="display-4 text-center mt-4">Now please scan <span class="text-primary"><i class="fa fa-coffee" aria-hidden="true"></i> the products</span> you want to buy.</h1>
+    </div>
+    <div *ngIf="user && !cart.isEmpty()">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="text-center w-25">Product name</th>
+                    <th class="text-center w-25">Unit price</th>
+                    <th class="text-center w-25">Quantity</th>
+                    <th class="text-center w-25">Total price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of cart.cart_items">
+                    <td>{{ item.product_name }}</td>
+                    <td class="text-right">{{ item.unit_price / 100 | currency:'EUR':true:'1.2-2' }}</td>
+                    <td class="text-right">{{item.quantity }}</td>
+                    <td class="text-right">{{ item.totalPrice() / 100 | currency:'EUR':true:'1.2-2' }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <h1 class="display-4 text-center">Total sum: {{ cart.totalSum() / 100 | currency:'EUR':true:'1.2-2' }}</h1>
+        <h1 class="display-4 text-center mt-4">Confirm your order <span class="text-primary">by pressing the <kbd>Enter</kbd> key</span>.</h1>
+    </div>
+</div>

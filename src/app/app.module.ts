@@ -13,7 +13,10 @@ import {
   ProductListComponent,
   ProductEditComponent,
   UserListComponent,
-  CashdeskComponent
+  CashdeskComponent,
+  DepositStationComponent,
+  NavbarComponent,
+  SelfserviceComponent
 } from "./components";
 
 // App providers
@@ -28,6 +31,9 @@ import { BackendServiceProvider } from "app/providers/backend-service.provider";
     ProductEditComponent,
     UserListComponent,
     CashdeskComponent,
+    DepositStationComponent,
+    SelfserviceComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
@@ -50,8 +56,15 @@ import { BackendServiceProvider } from "app/providers/backend-service.provider";
       {
         path: 'cashdesk',
         component: CashdeskComponent
+      },
+      {
+        path: 'deposit',
+        component: DepositStationComponent
+      },
+      {
+        path: 'selfservice',
+        component: SelfserviceComponent
       }
-
     ])
   ],
   providers: [BackendServiceProvider],

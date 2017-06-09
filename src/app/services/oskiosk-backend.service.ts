@@ -1,4 +1,4 @@
-import { Product, User, Identifiable, Cart, PaymentTransaction } from "../models";
+import { Product, User, Identifiable, Cart, PaymentTransaction, Transaction } from "../models";
 import { BackendService } from "app/services/backend.service";
 import { Http, Response, Headers, RequestOptions } from "@angular/http";
 
@@ -82,8 +82,7 @@ export class OskioskBackendService extends BackendService{
     }
     
     payCart(cart: Cart): Observable<PaymentTransaction> {
-        console.log(cart);
-        return this.httpPost('/carts/' + cart.id + '/pay.json', JSON.stringify({'cart_id': cart.id}))
+        return this.httpPost('/carts/' + cart.id + '/pay.json', JSON.stringify({'lock_version': cart.lock_version}))
         .map((res: Response) => { return deserialize(PaymentTransaction, res.text()); })
         .catch(this.handleError);
     }
@@ -104,6 +103,12 @@ export class OskioskBackendService extends BackendService{
         }
         return observable
         .map((res: Response) => { return deserialize(Cart, res.text()); })
+        .catch(this.handleError);
+    }
+
+    deposit(user: User, amount: number): Observable<Transaction> {
+        return this.httpPost('/users/' + user.id + '/deposit.json', JSON.stringify({'amount': amount}))
+        .map((res: Response) => { return deserialize(Transaction, res.text()); })
         .catch(this.handleError);
     }
 }
