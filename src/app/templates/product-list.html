@@ -1,19 +1,22 @@
-<nav class="breadcrumb">
-  <span class="breadcrumb-item active">Products</span>
-</nav>
+<navbar></navbar>
 
-<div class="row">
-  <div class="card col-md-3 product-card">
-    <div class="card-block">
-      <h4 class="card-title">New product</h4>
-      <a href="#" class="btn btn-outline-success">Create</a>
+<div class="container-fluid">
+    <h1 class="mt-2">Products</h1>
+
+    <div class="row">
+      <div class="card col-md-3 product-card">
+        <div class="card-block">
+          <h4 class="card-title">New product</h4>
+          <a href="#" class="btn btn-outline-success">Create</a>
+        </div>
+      </div>
+      <div class="card col-md-3 product-card" *ngFor="let product of products">
+        <div class="card-block">
+          <h4 class="card-title">{{ product.name }}</h4>
+          <a routerLink="/products/{{ product.id }}" class="btn btn-outline-primary">Edit</a>
+          <a href="#" class="btn btn-outline-danger">Delete</a>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="card col-md-3 product-card" *ngFor="let product of products">
-    <div class="card-block">
-      <h4 class="card-title">{{ product.name }}</h4>
-      <a routerLink="/products/{{ product.id }}" class="btn btn-outline-primary">Edit</a>
-      <a href="#" class="btn btn-outline-danger">Delete</a>
-    </div>
-  </div>
+
 </div>

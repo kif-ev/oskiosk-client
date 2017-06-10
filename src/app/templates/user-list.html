@@ -1,18 +1,22 @@
-<h1 class="mt-2"> Users</h1>
+<navbar></navbar>
 
-<form class="form-inline">
-  <button type="submit" class="btn btn-success mb-2 mr-2">New user</button>
-  <input type="text" class="form-control mb-2" placeholder="Filter users" [(ngModel)]="filter" name="filter">
-</form>
+<div class="container-fluid">
+    <h1 class="mt-2"> Users</h1>
 
-<div class="row">
-  <div class="col-md-3" *ngFor="let user of filteredUsers">
-    <div class="card">
-      <div class="card-block">
-        <h4 class="card-title">{{ user.name }}</h4>
-        <a routerLink="/users/{{ user.id }}" class="btn btn-outline-primary">Edit</a>
-        <a href="#" class="btn btn-outline-danger">Delete</a>
+    <form class="form-inline">
+      <button type="submit" class="btn btn-success mb-2 mr-2">New user</button>
+      <input type="text" class="form-control mb-2" placeholder="Filter users" [(ngModel)]="filter" name="filter">
+    </form>
+
+    <div class="row">
+      <div class="col-md-3" *ngFor="let user of filteredUsers">
+        <div class="card">
+          <div class="card-block">
+            <h4 class="card-title">{{ user.name }}</h4>
+            <a routerLink="/users/{{ user.id }}" class="btn btn-outline-primary">Edit</a>
+            <a href="#" class="btn btn-outline-danger">Delete</a>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 </div>
