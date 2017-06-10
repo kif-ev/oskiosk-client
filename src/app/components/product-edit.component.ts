@@ -12,8 +12,8 @@ import { BackendService } from "app/services";
 })
 export class ProductEditComponent implements OnInit {
 
-    private product: Product;S
-    private wait_save: boolean = false;
+    product: Product;
+    wait_save: boolean = false;
 
     constructor(
         private backend_service: BackendService,

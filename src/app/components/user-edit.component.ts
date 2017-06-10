@@ -12,8 +12,8 @@ import { BackendService } from "app/services";
 })
 export class UserEditComponent implements OnInit {
 
-    private user: User;
-    private wait_save: boolean = false;
+    user: User;
+    wait_save: boolean = false;
 
     constructor(
         private backend_service: BackendService,
