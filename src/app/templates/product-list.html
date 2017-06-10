@@ -1,22 +1,22 @@
 <navbar></navbar>
 
 <div class="container-fluid">
-    <h1 class="mt-2">Products</h1>
+    <h1 class="mt-2"> Products</h1>
+
+    <form class="form-inline">
+      <a routerLink="/product/new" class="btn btn-success mb-2 mr-2">New product</a>
+      <input type="text" class="form-control mb-2" placeholder="Filter products" [(ngModel)]="filter" name="filter">
+    </form>
 
     <div class="row">
-      <div class="card col-md-3 product-card">
-        <div class="card-block">
-          <h4 class="card-title">New product</h4>
-          <a href="#" class="btn btn-outline-success">Create</a>
-        </div>
-      </div>
-      <div class="card col-md-3 product-card" *ngFor="let product of products">
-        <div class="card-block">
-          <h4 class="card-title">{{ product.name }}</h4>
-          <a routerLink="/products/{{ product.id }}" class="btn btn-outline-primary">Edit</a>
-          <a href="#" class="btn btn-outline-danger">Delete</a>
+      <div class="col-md-3" *ngFor="let product of filteredProducts">
+        <div class="card">
+          <div class="card-block">
+            <h4 class="card-title">{{ product.name }}</h4>
+            <a routerLink="/product/{{ product.id }}" class="btn btn-outline-primary">Edit</a>
+            <a href="#" class="btn btn-outline-danger">Delete</a>
+          </div>
         </div>
       </div>
     </div>
-
 </div>

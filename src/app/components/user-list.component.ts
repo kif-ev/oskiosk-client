@@ -17,7 +17,6 @@ export class UserListComponent implements OnInit{
     }
 
     set filter(value: string) {
-        console.log(value);
         this._filter = value;
         this.filterUsers();
     }
@@ -33,10 +32,10 @@ export class UserListComponent implements OnInit{
                 continue;
             }
             for(let identifier of user.identifiers){
-                //if(identifier.toLowerCase().includes(this._filter.toLowerCase())){
-                //    this.filteredUsers.push(user);
-                //    continue;
-                //}
+                if(identifier.code.toLowerCase().includes(this._filter.toLowerCase())){
+                    this.filteredUsers.push(user);
+                    continue;
+                }
             }
         }
     }

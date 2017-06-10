@@ -30,6 +30,10 @@ export class BackendService{
         throw Error('Not implemented.');
     }
 
+    saveUser(user: User): Observable<User> {
+        throw Error('Not implemented.');
+    }
+
     createOrUpdateCart(cart: Cart): Observable<Cart> {
         throw Error('Not implemented.');
     }

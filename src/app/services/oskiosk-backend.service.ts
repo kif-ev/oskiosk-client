@@ -86,9 +86,45 @@ export class OskioskBackendService extends BackendService{
         .catch(this.handleError);
     }
 
+    private patchProduct(product: Product): Observable<Response> {
+        return this.httpPatch('/products/' + product.id + '.json', serialize(product));
+    }
+
+    private postProduct(product: Product): Observable<Response> {
+        return this.httpPost('/products', serialize(product));
+    }
+
     saveProduct(product: Product): Observable<Product> {
-        return this.httpPatch('/products/' + product.id + '.json', serialize(product))
+        let observable: Observable<Response>;
+        if(product.id){
+            observable = this.patchProduct(product);
+        }
+        else {
+            observable = this.postProduct(product);
+        }
+        return observable
         .map((res: Response) => { return deserialize(Product, res.text()); })
+        .catch(this.handleError);
+    }
+
+    private patchUser(user: User): Observable<Response> {
+        return this.httpPatch('/users/' + user.id + '.json', serialize(user));
+    }
+
+    private postUser(user: User): Observable<Response> {
+        return this.httpPost('/users', serialize(user));
+    }
+
+    saveUser(user: User): Observable<User> {
+        let observable: Observable<Response>;
+        if(user.id){
+            observable = this.patchUser(user);
+        }
+        else {
+            observable = this.postUser(user);
+        }
+        return observable
+        .map((res: Response) => { return deserialize(User, res.text()); })
         .catch(this.handleError);
     }
 

@@ -1,5 +1,5 @@
 import { BackendService } from "./backend.service";
-import { Product, Pricing, User, Identifiable, Identifier, PaymentTransaction, Cart, TransactionItem } from "app/models";
+import { Product, Pricing, User, Identifiable, Identifier, PaymentTransaction, Cart, TransactionItem, Tag } from "app/models";
 import { Observable } from "rxjs/Observable";
 
 import 'rxjs/add/observable/from';
@@ -13,12 +13,12 @@ export class LocalBackendService extends BackendService {
     _latency_simulation = 1000;
 
     _products: Product[] = [
-        new Product(this._product_id++, 'Club Mate', ['drink'], [new Identifier('1234')], [new Pricing(this._pricing_id++, 70)]),
-        new Product(this._product_id++, 'fritz Cola', ['drink'], [new Identifier('1337')], [new Pricing(this._pricing_id++, 100)])
+        new Product(this._product_id++, 'Club Mate', [new Tag('drink')], [new Identifier('1234')], [new Pricing(this._pricing_id++, 70)]),
+        new Product(this._product_id++, 'fritz Cola', [new Tag('drink')], [new Identifier('1337')], [new Pricing(this._pricing_id++, 100)])
     ];
     _users: User[] = [
-        new User(this._user_id++, 'Darth Vader',1000, ['not-a-jedi'], [new Identifier('8888')]),
-        new User(this._user_id++, 'Dagobert Duck',99999999, ['greedy'], [new Identifier('9999')])
+        new User(this._user_id++, 'Darth Vader',1000, [new Tag('not-a-jedi')], [new Identifier('8888')]),
+        new User(this._user_id++, 'Dagobert Duck',99999999, [new Tag('greedy')], [new Identifier('9999')])
     ];
     _transactions = [];
 

@@ -3,3 +3,14 @@
 .product-card {
   margin: 5px;
 }
+
+.flash-message {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    z-index: 1030;
+    min-width: 400px;
+    max-width: 450px;
+    min-height: 100px;
+    max-height: 1500px;
+  }

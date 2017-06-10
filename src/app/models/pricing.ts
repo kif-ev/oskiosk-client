@@ -11,4 +11,12 @@ export class Pricing{
         this.price = price;
         this.quantity = quantity;
     }
+
+    get decimal_price(): number {
+        return this.price / 100;
+    }
+
+    set decimal_price(price: number) {
+        this.price = price * 100;
+    }
 }
