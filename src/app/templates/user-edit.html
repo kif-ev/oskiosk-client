@@ -26,6 +26,17 @@
                 </div>
             </div>
             <div class="row"><div class="col-12 text-muted">If you want to deposit or withdraw funds from this account, please use the cash point view.</div></div>
+            <h4 class="mt-2">Prepaid/Postpaid</h4>
+            <div class="form-group row">
+                <div class="col-12">
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" [(ngModel)]="user.allow_negative_balance">
+                            Allow the user to have a negative balance (postpaid acccount)
+                        </label>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

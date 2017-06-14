@@ -8,6 +8,7 @@ export class User extends Identifiable {
     @Expose() id: number;
     @Expose() name: string;
     @Expose() balance: number;
+    @Expose() allow_negative_balance: boolean;
     @Expose() @Type(() => Tag) tags: Tag[];
 
     constructor(id: number, name: string, balance: number = 0, tags: Tag[] = [], identifiers: Identifier[] = []){
