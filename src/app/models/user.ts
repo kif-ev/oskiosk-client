@@ -1,14 +1,14 @@
 import { Identifier } from "./identifier";
 import { Identifiable } from "./identifiable";
-import { Expose, Exclude, Transform } from "class-transformer";
-import { Tag, TagTransform, InverseTagTransform } from "./tag";
+import { Expose, Exclude, Transform, Type } from "class-transformer";
+import { Tag } from "./tag";
 
 @Exclude()
 export class User extends Identifiable {
     @Expose() id: number;
     @Expose() name: string;
     @Expose() balance: number;
-    @Expose() @Transform(value => TagTransform(value), { toClassOnly: true }) @Transform(value => InverseTagTransform(value), { toPlainOnly: true }) tags: Tag[];
+    @Expose() @Type(() => Tag) tags: Tag[];
 
     constructor(id: number, name: string, balance: number = 0, tags: Tag[] = [], identifiers: Identifier[] = []){
         super();

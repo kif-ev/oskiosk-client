@@ -3,13 +3,13 @@ import { Exclude, Expose, Type, Transform } from "class-transformer";
 import { Pricing} from "./pricing";
 import { Identifier } from "./identifier";
 import { Identifiable } from "./identifiable";
-import { Tag, TagTransform, InverseTagTransform } from "./tag"
+import { Tag } from "./tag"
 
 @Exclude()
 export class Product extends Identifiable {
     @Expose() id: number;
     @Expose() name: string;
-    @Expose() @Transform(value => TagTransform(value), { toClassOnly: true }) @Transform(value => InverseTagTransform(value), { toPlainOnly: true }) tags: Tag[];
+    @Expose() @Type(() => Tag) tags: Tag[];
     @Expose() @Type(() => Pricing) pricings: Pricing[];
 
     constructor(id: number, name: string, tags: Tag[] = [], identifiers: Identifier[] = [], pricings: Pricing[] = []){
