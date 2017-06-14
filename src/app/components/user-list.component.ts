@@ -27,7 +27,7 @@ export class UserListComponent implements OnInit{
         this.filteredUsers = [];
 
         for(let user of this.users) {
-            if(user.name.toLowerCase().includes(this._filter.toLowerCase())) {
+            if(user.name && user.name.toLowerCase().includes(this._filter.toLowerCase())) {
                 this.filteredUsers.push(user);
                 continue;
             }

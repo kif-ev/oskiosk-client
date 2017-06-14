@@ -26,7 +26,7 @@ export class ProductListComponent implements OnInit{
         this.filteredProducts = [];
 
         for(let product of this.products) {
-            if(product.name.toLowerCase().includes(this._filter.toLowerCase())) {
+            if(product.name && product.name.toLowerCase().includes(this._filter.toLowerCase())) {
                 this.filteredProducts.push(product);
                 continue;
             }
