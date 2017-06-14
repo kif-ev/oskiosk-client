@@ -1,6 +1,7 @@
 export enum KeyCode {
 	BACKSPACE = 8,
 	ENTER = 13,
+	MULTIPLY = 106,
 	PLUS = 107,
 	MINUS = 109
 }

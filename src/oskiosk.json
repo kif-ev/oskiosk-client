@@ -1,5 +1,6 @@
 {
     "production": false,
+    "fun": true,
     "backend_type": "oskiosk",
     "backend_config": {
         "url": "https://oskiosk.herokuapp.com",

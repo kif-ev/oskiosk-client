@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from "@angular/co
 declare var jQuery:any;
 
 import { Cart, User, Identifiable, Product } from "app/models";
-import { BackendService } from "app/services";
+import { BackendService, ConfigService } from "app/services";
 import { GlobalInput, KeyCode } from "app/utils";
 
 @Component({
@@ -22,12 +22,15 @@ export class SelfServicePointComponent extends GlobalInput implements OnInit, On
     modal_text: string;
     modal_progress_class: string = 'w-0';
     mode: number = 0;
+    fun: boolean;
 
     constructor(
-        private backend_service: BackendService
+        private backend_service: BackendService,
+        private config_service: ConfigService
     ) {
         super();
         this.cart = new Cart();
+        this.fun = config_service.getConfig()['fun'];
     }
 
     ngOnInit(): void {
@@ -42,6 +45,12 @@ export class SelfServicePointComponent extends GlobalInput implements OnInit, On
         this.identifier_input += literal;
     }
 
+    getRandomInt(min: number, max: number): number {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min +1)) + min; 
+    }
+
     onSpecialKeyInput(keyCode: number): void {
         switch(keyCode){
             case KeyCode.ENTER:
@@ -49,6 +58,9 @@ export class SelfServicePointComponent extends GlobalInput implements OnInit, On
                 break;
             case KeyCode.BACKSPACE:
                 this.identifier_input = this.identifier_input.slice(0, -1);
+                break;
+            case KeyCode.MULTIPLY:
+                this.abort();
                 break;
         }
     }
@@ -127,8 +139,10 @@ export class SelfServicePointComponent extends GlobalInput implements OnInit, On
     }
 
     abort(): void {
+        this.modalDisplay('Aborted', 'The checkout process has been aborted.');
         this.cart = new Cart();
         this.user = null;
+        this.mode = 0;
     }
 
     modalDisplay(heading: string, text: string): void {

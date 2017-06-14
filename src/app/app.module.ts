@@ -18,6 +18,7 @@ import {
   NavbarComponent,
   HomeComponent
 } from "app/components";
+import { ConfigService } from "app/services";
 
 
 @NgModule({
@@ -81,7 +82,7 @@ import {
       }
     ])
   ],
-  providers: [BackendServiceProvider],
+  providers: [BackendServiceProvider, ConfigService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -10,7 +10,7 @@
 
     <div class="row">
       <div class="col-md-3" *ngFor="let user of filteredUsers">
-        <div class="card">
+        <div class="card" style="overflow: hidden">
           <div class="card-block">
             <h4 class="card-title">{{ user.name }}</h4>
             <a routerLink="/user/{{ user.id }}" class="btn btn-outline-primary">Edit</a>

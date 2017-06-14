@@ -11,9 +11,15 @@
         <h1 class="display-4 text-center mt-4">Please scan your <span class="text-primary"><i class="fa fa-id-card" aria-hidden="true"></i> ID card</span> to begin.</h1>
     </div>
     <div *ngIf="mode == 1 && cart.isEmpty()">
-        <h1 class="display-2 text-center">Welcome {{ user.name }}!</h1>
-        <h1 class="display-4 text-center">Your current balance: {{ user.balance / 100 | currency:'EUR':true:'1.2-2' }}</h1>
+        <h1 class="display-4 text-center">Welcome!</h1>
+        <div class="card col-lg-4 offset-lg-4">
+          <div class="card-block" style="overflow: hidden">
+            <h4 class="card-title">{{ user.name }}</h4>
+            <h4 class="card-subtitle text-muted">Your current balance: {{ user.balance / 100 | currency:'EUR':true:'1.2-2' }}</h4>
+          </div>
+        </div>
         <h1 class="display-4 text-center mt-4">Now please scan <span class="text-primary"><i class="fa fa-coffee" aria-hidden="true"></i> the products</span> you want to buy.</h1>
+        <h1 class="display-4 text-center mt-4"><span class="text-danger">Abort by pressing the <kbd>&times;/*</kbd> key.</span></h1>
     </div>
     <div *ngIf="mode == 1 && !cart.isEmpty()">
         <table class="table table-bordered">
@@ -36,10 +42,14 @@
         </table>
         <h1 class="display-4 text-center">Total sum: {{ cart.totalSum() / 100 | currency:'EUR':true:'1.2-2' }}</h1>
         <h1 class="display-4 text-center mt-4">Confirm your order <span class="text-primary">by pressing the <kbd>Enter</kbd> key</span>.</h1>
+        <h1 class="display-4 text-center mt-4"><span class="text-danger">Abort by pressing the <kbd>&times;/*</kbd> key.</span></h1>
     </div>
     <div *ngIf="mode == 2">
-        <h1 class="display-2 text-center">Thank you {{ user.name }}!</h1>
+        <h1 class="display-2 text-center">Thank you!</h1>
         <h1 class="display-4 text-center">Your new balance: {{ user.balance / 100 | currency:'EUR':true:'1.2-2' }}</h1>
+        <div *ngIf="fun" class="text-center">
+            <img class="rounded" style="max-width: 50vw; max-height: 30vh" src="assets/fun/{{ getRandomInt(1, 11) }}.gif">
+        </div>
     </div>
 </div>
 
