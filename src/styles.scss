@@ -1,16 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 
-.product-card {
-  margin: 5px;
-}
-
 .flash-message {
     position: fixed;
     top: 25px;
-    right: 25px;
+    right: 35px;
     z-index: 1030;
     min-width: 400px;
     max-width: 450px;
     min-height: 100px;
-    max-height: 1500px;
+    max-height: 150px;
+    box-shadow: 5px 5px 15px gray;
   }

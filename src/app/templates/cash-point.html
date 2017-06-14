@@ -6,15 +6,11 @@
     <div class="row">
         <div class="col-lg-4">
 
-            <div class="card">
+            <div class="card" *ngIf="!user">
                 <div class="card-header">
                     Barcode input
                 </div>
                 <div class="card-block">
-                    <div *ngIf="alert_barcode_not_found_or_no_user" class="alert alert-danger" role="alert">
-                        <h4 class="alert-heading">Not found!</h4>
-                        <p class="mb-0">The barcode you have entered was not found in the system or is not associated to a user account.</p>
-                    </div>
                     <div class="input-group input-group-lg">
                         <span class="input-group-addon text-primary"><i class="fa fa-barcode" aria-hidden="true"></i></span>
                         <input type="text" class="form-control form-control-lg" [value]="identifier_input" placeholder="Type identifier or use barcode scanner ..." readonly>
@@ -25,14 +21,14 @@
                 </div>
             </div>
 
-            <div class="card mt-2">
+            <div class="card mt-2" *ngIf="user">
                 <div class="card-header">
                     Customer
                 </div>
                 <div class="card-block">
-                    <h2 *ngIf="user" class="card-title"><i *ngIf="wait_checkout" class="fa fa-spinner fa-spin fa-fw"></i> {{ user.name }}</h2>
-                    <h4 *ngIf="user" class="card-subtitle mb-4 text-muted">{{ user.balance / 100 | currency:'EUR':true:'1.2-2' }}</h4>
-                    <button class="btn btn-warning btn-lg btn-block" (click)="abort()" [disabled]="!user">Abort</button>
+                    <h2 class="card-title"><i *ngIf="wait_checkout" class="fa fa-spinner fa-spin fa-fw"></i> {{ user.balance / 100 | currency:'EUR':true:'1.2-2' }}</h2>
+                    <h4 class="card-subtitle mb-4 text-muted">{{ user.name }}</h4>
+                    <button class="btn btn-warning btn-lg btn-block" (click)="abort()">Abort</button>
 
                 </div>
             </div>
@@ -71,15 +67,15 @@
                     </div>
                     <h4 class="card-subtitle mt-4">Custom amounts</h4>
                     <div class="input-group mt-2">
-                        <input type="text" class="form-control" placeholder="Enter deposit amount">
+                        <input type="number" min="0" step="0.01" class="form-control" placeholder="Enter deposit amount" [(ngModel)]="deposit_custom">
                         <span class="input-group-btn w-25">
-                            <button class="btn btn-secondary" type="button">Deposit funds</button>
+                            <button class="btn btn-secondary" type="button" (click)="deposit(deposit_custom * 100)">Deposit funds</button>
                         </span>
                     </div>
                     <div class="input-group mt-2">
-                        <input type="text" class="form-control" placeholder="Enter withdraw amount">
+                        <input type="number" min="0" step="0.01" class="form-control" placeholder="Enter withdraw amount" [(ngModel)]="withdraw_custom">
                         <span class="input-group-btn w-25">
-                            <button class="btn btn-secondary" type="button">Withdraw funds</button>
+                            <button class="btn btn-secondary" type="button" (click)="deposit(-withdraw_custom * 100)">Withdraw funds</button>
                         </span>
                     </div>
                 </div>

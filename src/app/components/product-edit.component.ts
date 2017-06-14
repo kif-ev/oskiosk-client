@@ -17,7 +17,7 @@ export class ProductEditComponent implements OnInit {
 
     constructor(
         private backend_service: BackendService,
-        private flashMessagesService: FlashMessagesService,
+        private flash_messages_service: FlashMessagesService,
         private route: ActivatedRoute,
         private router: Router
     ) { }
@@ -56,7 +56,7 @@ export class ProductEditComponent implements OnInit {
                 this.backend_service.getProduct(+product_id)
                 .subscribe(
                     product => this.product = product,
-                    error => this.flashMessagesService.show('Failed to load product!', { cssClass: 'alert-danger' })
+                    error => this.flash_messages_service.show('Failed to load product!', { cssClass: 'alert-danger' })
                 );
             }
         });
@@ -67,11 +67,11 @@ export class ProductEditComponent implements OnInit {
         this.backend_service.saveProduct(this.product)
         .subscribe(
             product => {
-                this.flashMessagesService.show('Product saved!', { cssClass: 'alert-success' });
+                this.flash_messages_service.show('Product saved!', { cssClass: 'alert-success' });
                 this.router.navigate(['/products']);
             },
             error => {
-                this.flashMessagesService.show('Failed to save product!', { cssClass: 'alert-danger' });
+                this.flash_messages_service.show('Failed to save product!', { cssClass: 'alert-danger' });
                 this.wait_save = false;
                 console.log(error);
             }

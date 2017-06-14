@@ -1,8 +1,10 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
+import { FlashMessagesService } from "angular2-flash-messages/module";
 
 import { Cart, User, Identifiable, Product } from "app/models";
 import { GlobalInput, KeyCode } from "app/utils";
 import { BackendService } from "app/services";
+
 
 @Component({
     selector: 'sales-point',
@@ -15,10 +17,10 @@ export class SalesPointComponent extends GlobalInput implements OnInit, OnDestro
     user: User;
     wait_identifier: boolean = false;
     wait_checkout: boolean = false;
-    alert_barcode_not_found: boolean = false;
 
     constructor(
-        private backend_service: BackendService
+        private backend_service: BackendService,
+        private flash_messages_service: FlashMessagesService
     ) {
         super();
         this.cart = new Cart();
@@ -34,7 +36,6 @@ export class SalesPointComponent extends GlobalInput implements OnInit, OnDestro
 
     onLiteralInput(literal: string): void {
         this.identifier_input += literal;
-        this.alert_barcode_not_found = false;
     }
 
     onSpecialKeyInput(keyCode: number): void {
@@ -54,11 +55,11 @@ export class SalesPointComponent extends GlobalInput implements OnInit, OnDestro
             .subscribe(
                 item => {
                     this.wait_identifier = false;
-                    this.processItem(item)
+                    this.processItem(item);
                 },
                 error => {
                     this.wait_identifier = false;
-                    this.alert_barcode_not_found = true;
+                    this.flash_messages_service.show('Unkown barcode.', { cssClass: 'alert-danger' });
                 }
             );
         this.identifier_input = '';
@@ -89,7 +90,10 @@ export class SalesPointComponent extends GlobalInput implements OnInit, OnDestro
     updateCart(): void {
         this.backend_service.createOrUpdateCart(this.cart).subscribe(
             cart => this.cart = cart,
-            error => console.log(error)
+            error => {
+                console.log(error);
+                this.flash_messages_service.show('Cart update failed.', { cssClass: 'alert-danger' });
+            }
         );
     }
 
@@ -98,14 +102,22 @@ export class SalesPointComponent extends GlobalInput implements OnInit, OnDestro
         this.backend_service.payCart(this.cart).subscribe(
             transaction => {
                 this.wait_checkout = false;
-                this.cart = new Cart();
-                this.user = null;
+                this.flash_messages_service.show('Transaction created!', { cssClass: 'alert-success' });
+                this.reset();
             },
-            error => console.log(error)
+            error => {
+                console.log(error);
+                this.flash_messages_service.show('Cart payment failed.', { cssClass: 'alert-danger' });
+            }
         );
     }
 
     abort(): void {
+        this.flash_messages_service.show('Transaction aborted.', { cssClass: 'alert-warning' });
+        this.reset();
+    }
+
+    reset(): void {
         this.cart = new Cart();
         this.user = null;
     }

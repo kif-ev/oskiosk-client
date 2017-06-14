@@ -11,10 +11,6 @@
                     Barcode input
                 </div>
                 <div class="card-block">
-                    <div *ngIf="alert_barcode_not_found" class="alert alert-danger" role="alert">
-                        <h4 class="alert-heading">Not found!</h4>
-                        <p class="mb-0">The barcode you have entered was not found in the system.</p>
-                    </div>
                     <div class="input-group input-group-lg">
                         <span class="input-group-addon text-primary"><i class="fa fa-barcode" aria-hidden="true"></i></span>
                         <input type="text" class="form-control form-control-lg" [value]="identifier_input" placeholder="Type identifier or use barcode scanner ..." readonly>
