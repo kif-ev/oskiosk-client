@@ -2,9 +2,9 @@ language: node_js
 node_js: 'node'
 cache: yarn
 before_script:
-  - npm install -g @angular/cli
+  - yarn global add @angular/cli
 script:
-  - ng build --prod --aot=false
+  - ng build --aot=false
 notifications:
   email:
     on_failure: change
