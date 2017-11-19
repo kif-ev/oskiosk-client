@@ -12,6 +12,7 @@ notifications:
 before_deploy:
   - tar cvfz oskiosk-client.tar.gz dist/*
 deploy:
+  skip_cleanup: true
   provider: releases
   api_key:
     secure: ZXuV4Aa4cigDGJjvZilCGpXOwCgQ4cppfX5ej97VhMwtDhXsxig2NIexCbKxW1/cEMI9BNk8Vw3cKo2DFpm46/COIDBN+mn/kk+7VoPM4eQqs7ggCBbONwfLFClh76kQixV9jxSHdis9dTU4XrjKUhVxMVSyVlQsvWGSP9cTKJQJUd3f/B3p6mtn6N2YE4ChexaljHtui7+Asij38PbDCSkzsTBuJ+uZj3Fk+H3J/5tQ5Q7dC2GmkBH/GQi361fDgxQxqD0Wsh0OhMPQ8aCXP2w9ZOPvNy1YbGjYh+0vgVfeP0MggDx6UgnuJlIWQkPChkJNLNvhlnHjT76yNghj54qhXz8YQQxp+P2ZtVR/ESbrYrA9kQgmhq1U51HkfBJ2NKHNP7BcCKZ4mmvfv8QzbbJgrepvPTb6phzKIIn8Sn32iACGgi3IdxQZi19zg/XICgyW0/WsBqNZ+Th8h1xJyBkUag/wkWANE65TxLzycMAvky6cZpy9vq0FOCdMixWJvj1DkZmAhOCJKh/T+ACqjrvE2OAoewx0QlgUa+O6XuTFXHH/XVksXHkGgvBb0+qiB3rNKkcrP2uVW8a8fH6Sbb0/B+4KydBE4OHpuI5tBJsfMPewEEJKuKCvnU9GAm/J/cQL7rQrqsh62Dsx0NFnAj4zq6IhhKOzxNKV6SoVpyc=
