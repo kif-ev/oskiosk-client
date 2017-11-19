@@ -1,9 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 
+.flash-messages {
+    position: fixed;
+    z-index: 1030;
+    right: 35px;
+}
+
 .flash-message {
     position: fixed;
     top: 25px;
-    right: 35px;
     z-index: 1030;
     min-width: 400px;
     max-width: 450px;

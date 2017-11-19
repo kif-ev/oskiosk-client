@@ -10,15 +10,15 @@ export class LocalBackendService extends BackendService {
     private _pricing_id: number = 1;
     private _transaction_id: number = 1;
     private _transaction_item_id: number = 1;
-    _latency_simulation = 1000;
+    _latency_simulation = 1;
 
     _products: Product[] = [
         new Product(this._product_id++, 'Club Mate', [new Tag('drink')], [new Identifier('1234')], [new Pricing(this._pricing_id++, 70)]),
         new Product(this._product_id++, 'fritz Cola', [new Tag('drink')], [new Identifier('1337')], [new Pricing(this._pricing_id++, 100)])
     ];
     _users: User[] = [
-        new User(this._user_id++, 'Darth Vader',1000, [new Tag('not-a-jedi')], [new Identifier('8888')]),
-        new User(this._user_id++, 'Dagobert Duck',99999999, [new Tag('greedy')], [new Identifier('9999')])
+        new User(this._user_id++, 'Darth Vader',1000, false, [new Tag('not-a-jedi')], [new Identifier('8888')]),
+        new User(this._user_id++, 'Dagobert Duck',99999999, true, [new Tag('greedy')], [new Identifier('9999')])
     ];
     _transactions = [];
 
@@ -33,25 +33,26 @@ export class LocalBackendService extends BackendService {
     }
 
     getProducts(): Observable<Product[]> {
-        return this.makeObservable(this._products);
+        console.log("foobar");
+        return <Observable<Product[]>> this.makeObservable(this._products);
     }
 
     getProduct(id: number): Observable<Product> {
         for(let product of this._products){
             if(product.id == id)
-                return this.makeObservable(product);
+                return <Observable<Product>> this.makeObservable(product);
         }
         return Observable.throw('Product with specified ID not found.');
     }
 
     getUsers(): Observable<User[]> {
-        return this.makeObservable(this._users);
+        return <Observable<User[]>> this.makeObservable(this._users);
     }
 
     getUser(id: number): Observable<User> {
         for(let user of this._users){
             if(user.id == id)
-                return this.makeObservable(user);
+                return <Observable<User>> this.makeObservable(user);
         }
         return Observable.throw('User with specified ID not found.');
     }

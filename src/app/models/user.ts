@@ -11,11 +11,12 @@ export class User extends Identifiable {
     @Expose() allow_negative_balance: boolean;
     @Expose() @Type(() => Tag) tags: Tag[];
 
-    constructor(id: number, name: string, balance: number = 0, tags: Tag[] = [], identifiers: Identifier[] = []){
+    constructor(id: number, name: string, balance: number = 0, allow_negative_balance:boolean = false, tags: Tag[] = [], identifiers: Identifier[] = []){
         super();
         this.id = id;
         this.name = name;
         this.balance = balance;
+        this.allow_negative_balance = allow_negative_balance;
         this.tags = tags;
         this.identifiers = identifiers;
     }

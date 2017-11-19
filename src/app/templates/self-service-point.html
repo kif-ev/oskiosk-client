@@ -1,6 +1,6 @@
-<nav class="navbar fixed-bottom navbar-light bg-faded">
+<nav class="navbar fixed-bottom navbar-light bg-light">
     <form class="form-inline">
-        <input type="text" class="form-control form-control-lg w-50" [value]="identifier_input" placeholder="Barcode input" readonly>
+        <input type="text" class="form-control form-control-lg" [value]="identifier_input" placeholder="Barcode input" readonly>
         <h4 class="ml-4">Scan code or type <kbd>0-9</kbd> + <kbd>Enter</kbd></h4>
     </form>
 </nav>
@@ -13,7 +13,7 @@
     <div *ngIf="mode == 1 && cart.isEmpty()">
         <h1 class="display-4 text-center">Welcome!</h1>
         <div class="card col-lg-4 offset-lg-4">
-          <div class="card-block" style="overflow: hidden">
+          <div class="card-body" style="overflow: hidden">
             <h4 class="card-title">{{ user.name }}</h4>
             <h4 class="card-subtitle text-muted">Your current balance: {{ user.balance / 100 | currency:'EUR':true:'1.2-2' }}</h4>
           </div>

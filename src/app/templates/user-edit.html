@@ -12,7 +12,7 @@
     </form>
 
     <div class="card mt-2">
-        <div class="card-block">
+        <div class="card-body">
             <h4>User name</h4>
             <div class="form-group row">
                 <div class="col-12">
@@ -44,7 +44,7 @@
     <div class="row" *ngIf="user">
         <div class="col-lg-4 mt-2">
             <div class="card">
-                <div class="card-block">
+                <div class="card-body">
                     <h4>Tags</h4>
                     <div *ngFor="let tag of user.tags" class="form-group row">
                         <div class="col-12">
@@ -63,7 +63,7 @@
         </div>
         <div class="col-lg-4 mt-2">
             <div class="card">
-                <div class="card-block">
+                <div class="card-body">
                     <h4>Barcodes</h4>
                     <div *ngFor="let identifier of user.identifiers" class="form-group row">
                         <div class="col-12">
@@ -82,7 +82,7 @@
         </div>
         <div class="col-lg-4 mt-2">
             <div class="card">
-                <div class="card-block">
+                <div class="card-body">
                     <h4>Transactions</h4>
                     <div class="text-center text-muted">Currently not supported.</div>
                 </div>

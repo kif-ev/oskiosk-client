@@ -5,13 +5,14 @@
 
     <form class="form-inline">
       <a routerLink="/user/new" class="btn btn-success mb-2 mr-2">New user</a>
+      <a routerLink="/user/import" class="btn btn-success mb-2 mr-2">Import users</a>
       <input type="text" class="form-control mb-2" placeholder="Filter users" [(ngModel)]="filter" name="filter">
     </form>
 
     <div class="row">
       <div class="col-md-3" *ngFor="let user of filteredUsers">
         <div class="card" style="overflow: hidden">
-          <div class="card-block">
+          <div class="card-body">
             <h4 class="card-title">{{ user.name }}</h4>
             <a routerLink="/user/{{ user.id }}" class="btn btn-outline-primary">Edit</a>
             <a href="#" class="btn btn-outline-danger">Delete</a>

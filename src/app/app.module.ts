@@ -12,6 +12,7 @@ import {
   ProductEditComponent,
   UserListComponent,
   UserEditComponent,
+  UserImportComponent,
   SalesPointComponent,
   CashPointComponent,
   SelfServicePointComponent,
@@ -28,6 +29,7 @@ import { ConfigService } from "app/services";
     ProductListComponent,
     UserEditComponent,
     UserListComponent,
+    UserImportComponent,
     SalesPointComponent,
     CashPointComponent,
     SelfServicePointComponent,
@@ -59,6 +61,10 @@ import { ConfigService } from "app/services";
       {
         path: 'user/new',
         component: UserEditComponent
+      },
+      {
+        path: 'user/import',
+        component: UserImportComponent
       },
       {
         path: 'user/:id',

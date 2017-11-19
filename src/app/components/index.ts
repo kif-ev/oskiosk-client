@@ -7,3 +7,4 @@ export { SalesPointComponent } from "./sales-point.component";
 export { SelfServicePointComponent } from "./self-service-point.component"
 export { UserListComponent } from "./user-list.component";
 export { UserEditComponent } from "./user-edit.component";
+export { UserImportComponent } from "./user-import.component";

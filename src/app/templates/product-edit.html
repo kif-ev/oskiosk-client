@@ -12,7 +12,7 @@
     </form>
 
     <div class="card mt-2">
-        <div class="card-block">
+        <div class="card-body">
             <h4>Product name</h4>
             <div class="form-group row">
                 <div class="col-12">
@@ -26,7 +26,7 @@
     <div class="row" *ngIf="product">
         <div class="col-lg-4 mt-2">
             <div class="card">
-                <div class="card-block">
+                <div class="card-body">
                     <h4>Tags</h4>
                     <div *ngFor="let tag of product.tags" class="form-group row">
                         <div class="col-12">
@@ -45,7 +45,7 @@
         </div>
         <div class="col-lg-4 mt-2">
             <div class="card">
-                <div class="card-block">
+                <div class="card-body">
                     <h4>Barcodes</h4>
                     <div *ngFor="let identifier of product.identifiers" class="form-group row">
                         <div class="col-12">
@@ -64,10 +64,10 @@
         </div>
         <div class="col-lg-4 mt-2">
             <div class="card">
-                <div class="card-block">
+                <div class="card-body">
                     <h4>Pricings</h4>
                     <div class="card mt-2" *ngFor="let pricing of product.pricings; let i = index">
-                        <div class="card-block">
+                        <div class="card-body">
                             <div class="form-group">
                                 <label for="quantity-{{ i }}">Quantity in stock</label>
                                 <input id="quantity-{{ i }}" type="number" min="0" step="1" class="form-control" [(ngModel)]="pricing.quantity">

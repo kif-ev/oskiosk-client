@@ -10,7 +10,7 @@
                 <div class="card-header">
                     Barcode input
                 </div>
-                <div class="card-block">
+                <div class="card-body">
                     <div class="input-group input-group-lg">
                         <span class="input-group-addon text-primary"><i class="fa fa-barcode" aria-hidden="true"></i></span>
                         <input type="text" class="form-control form-control-lg" [value]="identifier_input" placeholder="Type identifier or use barcode scanner ..." readonly>
@@ -25,7 +25,7 @@
                 <div class="card-header">
                     Customer
                 </div>
-                <div class="card-block">
+                <div class="card-body">
                     <h2 class="card-title"><i *ngIf="wait_checkout" class="fa fa-spinner fa-spin fa-fw"></i> {{ user.balance / 100 | currency:'EUR':true:'1.2-2' }}</h2>
                     <h4 class="card-subtitle mb-4 text-muted">{{ user.name }}</h4>
                     <button class="btn btn-warning btn-lg btn-block" (click)="abort()">Abort</button>
@@ -39,10 +39,10 @@
                 <div class="card-header">
                     Choose amount to deposit or withdraw
                 </div>
-                <div class="card-block text-center text-muted" *ngIf="!user">
+                <div class="card-body text-center text-muted" *ngIf="!user">
                     Please scan a customer code first.
                 </div>
-                <div class="card-block" *ngIf="user">
+                <div class="card-body" *ngIf="user">
                     <h4 class="card-subtitle">Deposit/Withdraw to set user balance to 0 €</h4>
                     <div class="btn-group btn-group-lg mt-2">
                         <span class="input-group-addon">Deposit/Withdraw funds</span>
