@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { User, Tag, Identifier } from "app/models";
 import { BackendService } from "app/services/backend.service";
-import { FlashMessagesService } from "angular2-flash-messages";
 import { Parser } from "csv-parse";
 
 @Component({
@@ -17,8 +16,7 @@ export class UserImportComponent implements OnInit{
     importProgress: number;
 
     constructor(
-        private backendService: BackendService,
-        private flashMessagesService: FlashMessagesService
+        private backendService: BackendService
     ) { }
 
     ngOnInit() {

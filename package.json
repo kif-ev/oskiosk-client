@@ -22,7 +22,6 @@
     "@angular/platform-browser-dynamic": "^5.0.2",
     "@angular/router": "^5.0.2",
     "@types/csv-parse": "^1.1.11",
-    "angular2-flash-messages": "^1.0.8",
     "bootstrap": "^4.0.0-beta.2",
     "class-transformer": "^0.1.6",
     "core-js": "^2.4.1",

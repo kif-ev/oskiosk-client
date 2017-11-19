@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from "@angular/core";
-import { FlashMessagesService } from "angular2-flash-messages/module";
 
 declare var jQuery:any;
 
@@ -28,8 +27,7 @@ export class SelfServicePointComponent extends GlobalInput implements OnInit, On
 
     constructor(
         private backend_service: BackendService,
-        private config_service: ConfigService,
-        private flash_messages_service: FlashMessagesService
+        private config_service: ConfigService
     ) {
         super();
         this.cart = new Cart();
@@ -79,7 +77,7 @@ export class SelfServicePointComponent extends GlobalInput implements OnInit, On
                 error => {
                     this.wait_identifier = false;
                     console.error(error);
-                    this.flash_messages_service.show('Not found! No product or user with this barcode exists.', { cssClass: 'alert-danger' });
+                    //this.flash_messages_service.show('Not found! No product or user with this barcode exists.', { cssClass: 'alert-danger' });
                 }
             );
         this.identifier_input = '';
@@ -88,7 +86,7 @@ export class SelfServicePointComponent extends GlobalInput implements OnInit, On
     processItem(item: Identifiable): void {
         if(item instanceof Product){
             if(!this.user){
-                this.flash_messages_service.show('Please scan your ID card first! You have scanned a product, but you need to scan your ID card.', { cssClass: 'alert-danger' });
+                //this.flash_messages_service.show('Please scan your ID card first! You have scanned a product, but you need to scan your ID card.', { cssClass: 'alert-danger' });
                 return;
             }
             this.cart.addToCart(item.name, item.pricings[0]); // hackedyhack ... select proper pricing instead
@@ -96,7 +94,7 @@ export class SelfServicePointComponent extends GlobalInput implements OnInit, On
         }
         else if(item instanceof User){
             if(this.user){
-                this.flash_messages_service.show('Already logged in! You have already scanned an ID card. If you want to change the user, please abort this transaction.', { cssClass: 'alert-danger' });
+                //this.flash_messages_service.show('Already logged in! You have already scanned an ID card. If you want to change the user, please abort this transaction.', { cssClass: 'alert-danger' });
                 return;
             }
             this.user = item;
@@ -111,7 +109,7 @@ export class SelfServicePointComponent extends GlobalInput implements OnInit, On
             cart => this.cart = cart,
             error => {
                 console.error(error);
-                this.flash_messages_service.show('Cart update failed! The cart could not be updated, probably because the product is no longer available.', { cssClass: 'alert-danger' });
+                //this.flash_messages_service.show('Cart update failed! The cart could not be updated, probably because the product is no longer available.', { cssClass: 'alert-danger' });
             }
         );
     }
@@ -125,7 +123,7 @@ export class SelfServicePointComponent extends GlobalInput implements OnInit, On
             },
             error => {
                 console.error(error);
-                this.flash_messages_service.show('Cart payment failed! The server did not accept the transaction, probably because your account balance is insufficient.', { cssClass: 'alert-danger' });
+                //this.flash_messages_service.show('Cart payment failed! The server did not accept the transaction, probably because your account balance is insufficient.', { cssClass: 'alert-danger' });
             }
         );
     }
@@ -142,7 +140,7 @@ export class SelfServicePointComponent extends GlobalInput implements OnInit, On
     }
 
     abort(): void {
-        this.flash_messages_service.show('The checkout process has been aborted.', { cssClass: 'alert-warning' });
+        //this.flash_messages_service.show('The checkout process has been aborted.', { cssClass: 'alert-warning' });
         this.cart = new Cart();
         this.user = null;
         this.mode = 0;

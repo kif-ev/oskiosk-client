@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule }   from '@angular/router';
-import { FlashMessagesModule } from 'angular2-flash-messages';
 
 import { AppComponent } from './app.component';
 import { BackendServiceProvider } from "app/providers";
@@ -40,7 +39,6 @@ import { ConfigService } from "app/services";
     BrowserModule,
     FormsModule,
     HttpModule,
-    FlashMessagesModule,
     RouterModule.forRoot([
       {
         path: 'products',
