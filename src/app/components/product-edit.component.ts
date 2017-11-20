@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 
 import { Product, Identifier, Pricing, Tag } from "app/models";
-import { BackendService } from "app/services";
+import { BackendService, FlashMessageService } from "app/services";
 
 @Component({
     selector: 'product-edit',
@@ -16,6 +16,7 @@ export class ProductEditComponent implements OnInit {
 
     constructor(
         private backend_service: BackendService,
+        private flash_message_service: FlashMessageService,
         private route: ActivatedRoute,
         private router: Router
     ) { }
@@ -54,7 +55,7 @@ export class ProductEditComponent implements OnInit {
                 this.backend_service.getProduct(+product_id)
                 .subscribe(
                     product => this.product = product,
-                    error => console.log(error) //this.flash_messages_service.show('Failed to load product!', { cssClass: 'alert-danger' })
+                    error => this.flash_message_service.flash('Failed to load product!', 'alert-danger')
                 );
             }
         });
@@ -65,11 +66,11 @@ export class ProductEditComponent implements OnInit {
         this.backend_service.saveProduct(this.product)
         .subscribe(
             product => {
-                //this.flash_messages_service.show('Product saved!', { cssClass: 'alert-success' });
+                this.flash_message_service.flash('Product saved!', 'alert-success');
                 this.router.navigate(['/products']);
             },
             error => {
-                //this.flash_messages_service.show('Failed to save product!', { cssClass: 'alert-danger' });
+                this.flash_message_service.flash('Failed to save product!', 'alert-danger');
                 this.wait_save = false;
                 console.log(error);
             }

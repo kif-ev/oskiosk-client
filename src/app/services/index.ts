@@ -1,4 +1,5 @@
 export { BackendService } from "./backend.service"
 export { ConfigService } from "./config.service"
+export { FlashMessage, FlashMessageService } from "./flash-message.service"
 export { LocalBackendService } from "./local-backend.service"
 export { OskioskBackendService } from "./oskiosk-backend.service"

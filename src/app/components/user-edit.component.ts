@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 
 import { User, Tag, Identifier } from "app/models";
-import { BackendService } from "app/services";
+import { BackendService, FlashMessageService } from "app/services";
 
 @Component({
     selector: 'user-edit',
@@ -16,6 +16,7 @@ export class UserEditComponent implements OnInit {
 
     constructor(
         private backend_service: BackendService,
+        private flashMessageService: FlashMessageService,
         private route: ActivatedRoute,
         private router: Router
     ) { }
@@ -46,7 +47,7 @@ export class UserEditComponent implements OnInit {
                 this.backend_service.getUser(+user_id)
                 .subscribe(
                     user => this.user = user,
-                    error => console.log(error) //this.flashMessagesService.show('Failed to load user!', { cssClass: 'alert-danger' })
+                    error => this.flashMessageService.flash('Failed to load user!', 'alert-danger')
                 );
             }
         });
@@ -57,11 +58,11 @@ export class UserEditComponent implements OnInit {
         this.backend_service.saveUser(this.user)
         .subscribe(
             user => {
-                //this.flashMessagesService.show('User saved!', { cssClass: 'alert-success' });
+                this.flashMessageService.flash('User saved!', 'alert-success');
                 this.router.navigate(['/users']);
             },
             error => {
-                //this.flashMessagesService.show('Failed to save user!', { cssClass: 'alert-danger' });
+                this.flashMessageService.flash('Failed to save user!', 'alert-danger');
                 this.wait_save = false;
                 console.log(error);
             }

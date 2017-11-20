@@ -1,8 +1,10 @@
 export { CashPointComponent } from "./cash-point.component";
+export { FlashMessageComponent } from "./flash-message.component";
 export { HomeComponent } from "./home.component"
 export { NavbarComponent } from "./navbar.component";
 export { ProductListComponent } from "./product-list.component";
 export { ProductEditComponent } from "./product-edit.component";
+export { ProductImportComponent } from "./product-import.component";
 export { SalesPointComponent } from "./sales-point.component";
 export { SelfServicePointComponent } from "./self-service-point.component"
 export { UserListComponent } from "./user-list.component";

@@ -9,6 +9,7 @@ import { BackendServiceProvider } from "app/providers";
 import { 
   ProductListComponent,
   ProductEditComponent,
+  ProductImportComponent,
   UserListComponent,
   UserEditComponent,
   UserImportComponent,
@@ -16,9 +17,10 @@ import {
   CashPointComponent,
   SelfServicePointComponent,
   NavbarComponent,
+  FlashMessageComponent,
   HomeComponent
 } from "app/components";
-import { ConfigService } from "app/services";
+import { ConfigService, FlashMessageService } from "app/services";
 
 
 @NgModule({
@@ -26,6 +28,7 @@ import { ConfigService } from "app/services";
     AppComponent,
     ProductEditComponent,
     ProductListComponent,
+    ProductImportComponent,
     UserEditComponent,
     UserListComponent,
     UserImportComponent,
@@ -33,6 +36,7 @@ import { ConfigService } from "app/services";
     CashPointComponent,
     SelfServicePointComponent,
     NavbarComponent,
+    FlashMessageComponent,
     HomeComponent
   ],
   imports: [
@@ -47,6 +51,10 @@ import { ConfigService } from "app/services";
       {
         path: 'product/new',
         component: ProductEditComponent
+      },
+      {
+        path: 'product/import',
+        component: ProductImportComponent
       },
       {
         path: 'product/:id',
@@ -86,7 +94,7 @@ import { ConfigService } from "app/services";
       }
     ])
   ],
-  providers: [BackendServiceProvider, ConfigService],
+  providers: [BackendServiceProvider, ConfigService, FlashMessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

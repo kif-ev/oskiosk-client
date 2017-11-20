@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 
 import { Cart, User, Identifiable, Product } from "app/models";
 import { GlobalInput, KeyCode } from "app/utils";
-import { BackendService } from "app/services";
+import { BackendService, FlashMessageService } from "app/services";
 
 
 @Component({
@@ -19,6 +19,7 @@ export class SalesPointComponent extends GlobalInput implements OnInit, OnDestro
 
     constructor(
         private backend_service: BackendService,
+        private flash_message_service: FlashMessageService
     ) {
         super();
         this.cart = new Cart();
@@ -57,7 +58,7 @@ export class SalesPointComponent extends GlobalInput implements OnInit, OnDestro
                 },
                 error => {
                     this.wait_identifier = false;
-                    //this.flash_messages_service.show('Unkown barcode.', { cssClass: 'alert-danger' });
+                    this.flash_message_service.flash('Unkown barcode.', 'alert-danger');
                 }
             );
         this.identifier_input = '';
@@ -90,7 +91,7 @@ export class SalesPointComponent extends GlobalInput implements OnInit, OnDestro
             cart => this.cart = cart,
             error => {
                 console.log(error);
-                //this.flash_messages_service.show('Cart update failed.', { cssClass: 'alert-danger' });
+                this.flash_message_service.flash('Cart update failed.', 'alert-danger');
             }
         );
     }
@@ -100,12 +101,12 @@ export class SalesPointComponent extends GlobalInput implements OnInit, OnDestro
         this.backend_service.payCart(this.cart).subscribe(
             transaction => {
                 this.wait_checkout = false;
-                //this.flash_messages_service.show('Transaction created!', { cssClass: 'alert-success' });
+                this.flash_message_service.flash('Transaction created!', 'alert-success');
                 this.reset();
             },
             error => {
                 console.log(error);
-                //this.flash_messages_service.show('Cart payment failed.', { cssClass: 'alert-danger' });
+                this.flash_message_service.flash('Cart payment failed.', 'alert-danger');
             }
         );
     }
