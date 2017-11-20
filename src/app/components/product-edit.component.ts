@@ -11,8 +11,7 @@ import { BackendService, FlashMessageService } from "app/services";
 })
 export class ProductEditComponent implements OnInit {
 
-    product: Product;
-    wait_save: boolean = false;
+    private product: Product;
 
     constructor(
         private backend_service: BackendService,
@@ -62,7 +61,6 @@ export class ProductEditComponent implements OnInit {
     }
 
     save(): void {
-        this.wait_save = true;
         this.backend_service.saveProduct(this.product)
         .subscribe(
             product => {
@@ -71,8 +69,6 @@ export class ProductEditComponent implements OnInit {
             },
             error => {
                 this.flash_message_service.flash('Failed to save product!', 'alert-danger');
-                this.wait_save = false;
-                console.log(error);
             }
         );
     }

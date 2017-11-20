@@ -1,5 +1,6 @@
 import { Product, User, Identifiable, Cart, PaymentTransaction, Transaction } from "../models";
 import { Observable } from "rxjs/Observable";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
 export class BackendService{
     getProducts(): Observable<Product[]> {
@@ -39,6 +40,10 @@ export class BackendService{
     }
 
     deposit(user: User, amount: number): Observable<Transaction> {
+        throw Error('Not implemented.');
+    }
+
+    getRequestActive(): BehaviorSubject<boolean> {
         throw Error('Not implemented.');
     }
 }

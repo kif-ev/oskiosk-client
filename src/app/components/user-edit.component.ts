@@ -11,8 +11,7 @@ import { BackendService, FlashMessageService } from "app/services";
 })
 export class UserEditComponent implements OnInit {
 
-    user: User;
-    wait_save: boolean = false;
+    private user: User;
 
     constructor(
         private backend_service: BackendService,
@@ -54,7 +53,6 @@ export class UserEditComponent implements OnInit {
     }
 
     save(): void {
-        this.wait_save = true;
         this.backend_service.saveUser(this.user)
         .subscribe(
             user => {
@@ -63,8 +61,6 @@ export class UserEditComponent implements OnInit {
             },
             error => {
                 this.flashMessageService.flash('Failed to save user!', 'alert-danger');
-                this.wait_save = false;
-                console.log(error);
             }
         );
     }

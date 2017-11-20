@@ -4,15 +4,9 @@
     <h1 *ngIf="user.id" class="mt-2">Edit user</h1>
     <h1 *ngIf="!user.id" class="mt-2">Create user</h1>
 
-    <form class="form-inline">
-    <button type="submit" class="btn btn-success mb-2 mr-2" (click)="save()">
-        <i *ngIf="wait_save" class="fa fa-spinner fa-spin fa-fw"></i> Save changes
-    </button>
-    <a routerLink="/users" class="btn btn-warning mb-2 mr-2">Discard changes</a>
-    </form>
-
     <div class="card mt-2">
         <div class="card-body">
+
             <h4>User name</h4>
             <div class="form-group row">
                 <div class="col-12">
@@ -37,56 +31,60 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
 
-    <div class="row" *ngIf="user">
-        <div class="col-lg-4 mt-2">
-            <div class="card">
-                <div class="card-body">
-                    <h4>Tags</h4>
-                    <div *ngFor="let tag of user.tags" class="form-group row">
-                        <div class="col-12">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-tag" aria-hidden="true"></i></span>
-                                <input class="form-control" type="text" [(ngModel)]="tag.name">
-                                <span class="input-group-btn">
-                                    <button (click)="deleteTag(tag)" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                                </span>
+            <div class="row" *ngIf="user">
+                <div class="col-lg-4 mt-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4>Tags</h4>
+                            <div *ngFor="let tag of user.tags" class="form-group row">
+                                <div class="col-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-tag" aria-hidden="true"></i></span>
+                                        <input class="form-control" type="text" [(ngModel)]="tag.name">
+                                        <span class="input-group-btn">
+                                            <button (click)="deleteTag(tag)" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
+                            <button (click)="addTag()" class="btn btn-secondary"><i class="fa fa-plus" aria-hidden="true"></i> Add tag</button>
                         </div>
                     </div>
-                    <button (click)="addTag()" class="btn btn-secondary"><i class="fa fa-plus" aria-hidden="true"></i> Add tag</button>
+                </div>
+                <div class="col-lg-4 mt-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4>Barcodes</h4>
+                            <div *ngFor="let identifier of user.identifiers" class="form-group row">
+                                <div class="col-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-barcode" aria-hidden="true"></i></span>
+                                        <input class="form-control" type="text" [(ngModel)]="identifier.code">
+                                        <span class="input-group-btn">
+                                            <button (click)="deleteIdentifier(identifier)" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button (click)="addIdentifier()" class="btn btn-secondary"><i class="fa fa-plus" aria-hidden="true"></i> Add barcode</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mt-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4>Transactions</h4>
+                            <div class="text-center text-muted">Currently not supported.</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 mt-2">
-            <div class="card">
-                <div class="card-body">
-                    <h4>Barcodes</h4>
-                    <div *ngFor="let identifier of user.identifiers" class="form-group row">
-                        <div class="col-12">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-barcode" aria-hidden="true"></i></span>
-                                <input class="form-control" type="text" [(ngModel)]="identifier.code">
-                                <span class="input-group-btn">
-                                    <button (click)="deleteIdentifier(identifier)" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <button (click)="addIdentifier()" class="btn btn-secondary"><i class="fa fa-plus" aria-hidden="true"></i> Add barcode</button>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 mt-2">
-            <div class="card">
-                <div class="card-body">
-                    <h4>Transactions</h4>
-                    <div class="text-center text-muted">Currently not supported.</div>
-                </div>
-            </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-success" (click)="save()"><i class="fa fa-check"></i> Save changes</button>
+            <a routerLink="/users" class="btn btn-warning"><i class="fa fa-undo"></i> Discard changes</a>
         </div>
     </div>
 </div>

@@ -3,21 +3,33 @@
 <div class="container-fluid">
     <h1 class="mt-2"> Users</h1>
 
-    <form class="form-inline">
-      <a routerLink="/user/new" class="btn btn-success mb-2 mr-2">New user</a>
-      <a routerLink="/user/import" class="btn btn-success mb-2 mr-2">Import users</a>
-      <input type="text" class="form-control mb-2" placeholder="Filter users" [(ngModel)]="filter" name="filter">
-    </form>
-
-    <div class="row">
-      <div class="col-md-3" *ngFor="let user of filteredUsers">
-        <div class="card" style="overflow: hidden">
-          <div class="card-body">
-            <h4 class="card-title">{{ user.name }}</h4>
-            <a routerLink="/user/{{ user.id }}" class="btn btn-outline-primary">Edit</a>
-            <a href="#" class="btn btn-outline-danger">Delete</a>
-          </div>
+    <div class="form-inline">
+        <a routerLink="/user/new" class="btn btn-success mr-2"><i class="fa fa-plus"></i> New user</a>
+        <a routerLink="/user/import" class="btn btn-success mr-2"><i class="fa fa-upload"></i> Import users</a>
+        <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+            <input class="form-control" type="text" placeholder="Filter users" [(ngModel)]="filter">
         </div>
-      </div>
     </div>
+
+    <table class="table table-striped mt-2">
+        <thead>
+            <tr>
+                <th class="text-left w-90">User name</th>
+                <th class="text-center w-10">Postpaid user?</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of filteredUsers">
+                <td>
+                    <a routerLink="/user/{{ item.id }}" class="btn btn-sm btn-outline-primary mr-2"><i class="fa fa-pencil"></i></a>
+                    {{ item.name }}
+                    <span *ngFor="let tag of item.tags" class="badge badge-secondary ml-1">{{ tag.name }}</span>
+                <td class="text-center">
+                    <i *ngIf="item.allow_negative_balance" class="fa fa-check"></i>
+                    <i *ngIf="!item.allow_negative_balance" class="fa fa-ban"></i>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>

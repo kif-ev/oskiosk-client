@@ -10,3 +10,4 @@ export { SelfServicePointComponent } from "./self-service-point.component"
 export { UserListComponent } from "./user-list.component";
 export { UserEditComponent } from "./user-edit.component";
 export { UserImportComponent } from "./user-import.component";
+export { WaitIndicatorComponent } from "./wait-indicator.component"

@@ -18,6 +18,7 @@ import {
   SelfServicePointComponent,
   NavbarComponent,
   FlashMessageComponent,
+  WaitIndicatorComponent,
   HomeComponent
 } from "app/components";
 import { ConfigService, FlashMessageService } from "app/services";
@@ -37,6 +38,7 @@ import { ConfigService, FlashMessageService } from "app/services";
     SelfServicePointComponent,
     NavbarComponent,
     FlashMessageComponent,
+    WaitIndicatorComponent,
     HomeComponent
   ],
   imports: [
